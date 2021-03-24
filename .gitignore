@@ -1,0 +1,6 @@
+**/uploads/**
+**/logs/**
+**/.vscode/**
+
+
+!**/uploads/img.jpg
