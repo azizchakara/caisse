@@ -28,6 +28,7 @@ import Products from "./Products";
 import UpdateProduct from "./products/UpdateProduct";
 import Orders from "./Orders";
 import AddOrders from "./Orders/AddOrders";
+import OrderSummary from "./Orders/OrderSummary";
 
 class App extends Component {
   render() {
@@ -55,6 +56,7 @@ class App extends Component {
             <Route path="/products" component={Products} />
             <Route path="/orders" component={Orders} />
             <Route path="/addorder" component={AddOrders} />
+            <Route path="/ordersummary" component={OrderSummary} />
             <Footer />
           </div>
         </Router>

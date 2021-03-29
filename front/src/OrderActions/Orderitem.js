@@ -15,7 +15,7 @@ class Orderitem extends Component {
 
         <td className="a-center ">{order.bill.id}</td>
 
-        <td className="a-center ">{[order.products.id]}</td>
+        <td className="a-center ">{[[order.products.productName]]}</td>
       </tr>
     );
   }

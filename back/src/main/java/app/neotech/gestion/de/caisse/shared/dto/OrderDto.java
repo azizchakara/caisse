@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class OrderDto implements Serializable{
 
 	/**
@@ -13,7 +15,7 @@ public class OrderDto implements Serializable{
 	
 	
 	private long id;
-	
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date cmdDate;
 	private long cmdNum;
 	private double total;

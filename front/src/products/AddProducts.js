@@ -5,6 +5,7 @@ import { createProduct } from "../ProductActions/ProductActions";
 import { getCategories } from "../categoryActions/CategoryActions";
 import { getIngredients } from "../IngredientActions/IngredientActions";
 import classnames from "classnames";
+import Select from "react-select";
 
 class AddProducts extends Component {
   componentDidMount() {
@@ -117,6 +118,9 @@ class AddProducts extends Component {
       errorsCategory,
       errorsIngredients,
       errorsCodeBar,
+      errorsQuantity,
+      errorsPrice,
+      errorsStock,
     } = this.state;
     return (
       <div className="content-wrapper">
@@ -143,34 +147,43 @@ class AddProducts extends Component {
                     <div className="form-group">
                       <input
                         type="text"
-                        className="form-control form-control-lg"
+                        className={classnames("form-control form-control-lg", {
+                          "is-invalid": errorsQuantity,
+                        })}
                         placeholder="Quantity"
                         name="quantity"
                         value={this.state.quantity}
                         onChange={this.onChange.bind(this)}
                       />
+                      <p>{errorsQuantity}</p>
                     </div>
 
                     <div className="form-group">
                       <input
                         type="int"
-                        className="form-control form-control-lg"
+                        className={classnames("form-control form-control-lg", {
+                          "is-invalid": errorsPrice,
+                        })}
                         placeholder="price"
                         name="price"
                         value={this.state.price}
                         onChange={this.onChange.bind(this)}
                       />
+                      <p>{errorsPrice}</p>
                     </div>
 
                     <div className="form-group">
                       <input
                         type="text"
-                        className="form-control form-control-lg"
+                        className={classnames("form-control form-control-lg", {
+                          "is-invalid": errorsStock,
+                        })}
                         placeholder="stock"
                         name="stock"
                         value={this.state.stock}
                         onChange={this.onChange.bind(this)}
                       />
+                      <p>{errorsStock}</p>
                     </div>
                     <div className="form-group">
                       <input

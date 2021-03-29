@@ -38,14 +38,24 @@ class AddOrders extends Component {
     let oldOrders = this.state.orders;
     //this.props.getProductByCategory(e.target.getAttribute("data-categoryId"));
     $("div.column img").each(function () {
-      if ($(this).attr("data-categoryId") == categoryId) {
+      if ($(this).attr("data-categoryId") === categoryId) {
         let productName = $(this).attr("data-productName");
 
         $(this).attr("data-categoryId", categoryId).css("display", "block");
+        $("span").attr("datacategorId", categoryId).css("display", "block");
+
         if (!oldOrders[productName]) {
           oldOrders[productName] = 0;
         }
-      } else if ($(this).attr("data-categoryId") != categoryId) {
+      } else if ($(this).attr("data-categoryId") !== categoryId) {
+        $(this).css("display", "none");
+        $("span").css("display", "none");
+      }
+    });
+    $("div.column span").each(function () {
+      if ($(this).attr("data-categoryId") === categoryId) {
+        $(this).attr("data-categoryId", categoryId).css("display", "block");
+      } else if ($(this).attr("data-categoryId") !== categoryId) {
         $(this).css("display", "none");
       }
     });
@@ -66,7 +76,6 @@ class AddOrders extends Component {
     const { categories } = this.props.categories;
     const { products } = this.props.products;
     const { orders } = this.state;
-    console.log(orders);
     return (
       <div className="content-wrapper">
         <div>
@@ -107,15 +116,24 @@ class AddOrders extends Component {
                             alt={product.productName}
                             id={product.category.id}
                           />
+                          <span
+                            style={{ display: "none", textAlign: "center" }}
+                            data-productId={product.id}
+                            data-productName={product.productName}
+                            data-categoryId={product.category.id}
+                          >
+                            ${product.price}
+                          </span>
                         </div>
                       ))}
                     </div>
                     <OrderSummary orders={this.state.orders} />
-                    <input
-                      type="submit"
+                    <a
+                      href="/ordersummary"
                       className="btn btn-info btn-block mt-4"
-                      value="Confirm"
-                    />
+                    >
+                      Continue to payment
+                    </a>
                   </form>
                 </div>
               </div>
