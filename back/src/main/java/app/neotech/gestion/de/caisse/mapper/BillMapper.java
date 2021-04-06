@@ -7,7 +7,7 @@ import app.neotech.gestion.de.caisse.entities.BillEntity;
 import app.neotech.gestion.de.caisse.shared.dto.BillDto;
 
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { OrderMapper.class})
 public interface BillMapper {
 
 	BillDto entityToModel(BillEntity source);

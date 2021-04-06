@@ -6,16 +6,20 @@ import { connect } from "react-redux";
 class Orderitem extends Component {
   render() {
     const { order } = this.props;
+    console.log(order);
     return (
       <tr className="even pointer">
         <td className="a-center ">{order.cmdDate}</td>
         <td className="a-center ">{order.cmdNum}</td>
         <td className="a-center ">{order.total}</td>
         <td className="a-center ">{order.client.codeClient}</td>
-
-        <td className="a-center ">{order.bill.id}</td>
-
-        <td className="a-center ">{[[order.products.productName]]}</td>
+        <td className="a-center ">
+          <ul>
+            {order.products.map((product) => {
+              return <li>{product.productName}</li>;
+            })}
+          </ul>
+        </td>
       </tr>
     );
   }

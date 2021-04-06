@@ -3,6 +3,7 @@ package app.neotech.gestion.de.caisse.entities;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,11 +28,6 @@ public class ProductEntity implements Serializable{
 	
 	@Column(nullable=false)
 	private String productName;
-	
-	@Column(nullable=false)
-	private double quantity;
-	
-	
 
 	@Column(nullable=false)
 	private double price;
@@ -50,8 +46,7 @@ public class ProductEntity implements Serializable{
     @ManyToMany
     @JoinTable(name="ingredients_product", joinColumns= {@JoinColumn(name="ingredient_id")}, inverseJoinColumns = {@JoinColumn(name="products_id")})
     private Set<IngredientEntity> ingredients = new HashSet<>();
-	
-    
+
     @ManyToMany(mappedBy="products")
     private Set<OrderEntity> orders = new HashSet<>();
     
@@ -60,18 +55,16 @@ public class ProductEntity implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProductEntity(long id, String productName, double quantity, double price, double stock, String codeBar,
-			CategoryEntity category, Set<IngredientEntity> ingredients, Set<OrderEntity> orders) {
+	public ProductEntity(long id, String productName, double price, double stock, String codeBar,
+			CategoryEntity category, Set<IngredientEntity> ingredients) {
 		super();
 		this.id = id;
 		this.productName = productName;
-		this.quantity = quantity;
 		this.price = price;
 		this.stock = stock;
 		this.codeBar = codeBar;
 		this.category = category;
 		this.ingredients = ingredients;
-		this.orders = orders;
 	}
 
 	public long getId() {
@@ -88,16 +81,6 @@ public class ProductEntity implements Serializable{
 
 	public void setProductName(String productName) {
 		this.productName = productName;
-	}
-
-	
-
-	public double getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(double quantity) {
-		this.quantity = quantity;
 	}
 
 	public double getPrice() {
@@ -147,6 +130,7 @@ public class ProductEntity implements Serializable{
 	public void setOrders(Set<OrderEntity> orders) {
 		this.orders = orders;
 	}
+
 	
 	
 }

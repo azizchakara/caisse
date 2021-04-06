@@ -2,6 +2,7 @@ package app.neotech.gestion.de.caisse.shared.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -21,10 +22,8 @@ public class OrderDto implements Serializable{
 	private double total;
 	private Boolean valide;
 	private ClientDto client;
-	private BillDto bill;
 	private Set<ProductDto> products;
-	
-	
+	//private List<OrderDetailsDto> details;
 	
 	public long getId() {
 		return id;
@@ -63,19 +62,22 @@ public class OrderDto implements Serializable{
 	public void setClient(ClientDto client) {
 		this.client = client;
 	}
-	public BillDto getBill() {
-		return bill;
+/*
+	public List<OrderDetailsDto> getDetails() {
+		return details;
 	}
-	public void setBill(BillDto bill) {
-		this.bill = bill;
+	public void setDetails(List<OrderDetailsDto> details) {
+		this.details = details;
 	}
+*/
+
 	public Set<ProductDto> getProducts() {
 		return products;
 	}
 	public void setProducts(Set<ProductDto> products) {
 		this.products = products;
 	}
-		
+	
 	
 	
 	

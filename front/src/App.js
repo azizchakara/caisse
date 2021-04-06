@@ -29,6 +29,7 @@ import UpdateProduct from "./products/UpdateProduct";
 import Orders from "./Orders";
 import AddOrders from "./Orders/AddOrders";
 import OrderSummary from "./Orders/OrderSummary";
+import InvoiceBill from "./Bills/InvoiceBill";
 
 class App extends Component {
   render() {
@@ -51,6 +52,7 @@ class App extends Component {
             <Route path="/addproduct" component={AddProducts} />
             <Route path="/addbills" component={AddBills} />
             <Route path="/bills" component={Bills} />
+            <Route path="/bill/:id" component={InvoiceBill} />
             <Route path="/updatebill/:id" component={UpdateBills} />
             <Route path="/updateproduct/:id" component={UpdateProduct} />
             <Route path="/products" component={Products} />

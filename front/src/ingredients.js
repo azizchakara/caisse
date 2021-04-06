@@ -43,7 +43,6 @@ class ingredients extends Component {
                     <thead>
                       <tr>
                         <th>Name</th>
-                        <th>Quantity</th>
                         <th>Price</th>
                         <th>Stock</th>
                         <th>Actions</th>

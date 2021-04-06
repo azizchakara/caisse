@@ -3,8 +3,12 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createBill } from "../BillsActions/BillsActions";
 import classnames from "classnames";
+import { getOrders } from "../OrderActions/OrderActions";
 
 class AddBills extends Component {
+  componentDidMount() {
+    this.props.getOrders();
+  }
   constructor() {
     super();
     this.state = {
@@ -62,6 +66,8 @@ class AddBills extends Component {
       errorstotal,
       errorstype,
     } = this.state;
+    const { orders } = this.props.orders;
+    console.log(orders);
     return (
       <div className="content-wrapper">
         <div>
@@ -105,32 +111,6 @@ class AddBills extends Component {
                       <p>{errorsbillDate}</p>
                     </div>
                     <div className="form-group">
-                      <input
-                        type="text"
-                        className={classnames("form-control form-control-lg", {
-                          "is-invalid": errorsbillNumber,
-                        })}
-                        placeholder="Bill Number"
-                        name="billNumber"
-                        value={this.state.billNumber}
-                        onChange={this.onChange}
-                      />
-                      <p>{errorsbillNumber}</p>
-                    </div>
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        className={classnames("form-control form-control-lg", {
-                          "is-invalid": errorstotal,
-                        })}
-                        placeholder="Total"
-                        name="total"
-                        value={this.state.total}
-                        onChange={this.onChange}
-                      />
-                      <p>{errorstotal}</p>
-                    </div>
-                    <div className="form-group">
                       <select
                         onChange={this.onChange}
                         value={this.state.type}
@@ -144,6 +124,13 @@ class AddBills extends Component {
                         <option>cash</option>
                       </select>
                       <p>{errorstype}</p>
+                    </div>
+                    <div className="form-group">
+                      <select className="form-control form-control-lg">
+                        {orders.map((order) => {
+                          return <option key={order.id}>{order.cmdNum}</option>;
+                        })}
+                      </select>
                     </div>
 
                     <input
@@ -168,5 +155,6 @@ AddBills.propTypes = {
 
 const mapStateToProps = (state) => ({
   errors: state.errors,
+  orders: state.order,
 });
-export default connect(mapStateToProps, { createBill })(AddBills);
+export default connect(mapStateToProps, { createBill, getOrders })(AddBills);

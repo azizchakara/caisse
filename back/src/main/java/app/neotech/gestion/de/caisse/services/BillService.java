@@ -14,7 +14,6 @@ public interface BillService {
 	void DeleteBill (Long id);
 	List<BillDto> getBillsByDate(Date start);
 	List<BillDto> getBillsBetweenDates(Date start, Date end);
-	List<BillDto> getBillsBetweenDatesAndTotalLess(Date start, Date end, Double total);
 	List<BillDto> getBills(int page, int limit);
 	
 	

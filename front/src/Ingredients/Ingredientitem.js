@@ -14,7 +14,6 @@ class Ingredientitem extends Component {
     return (
       <tr className="even pointer">
         <td className="a-center ">{ingredient.name}</td>
-        <td className="a-center ">{ingredient.quantity}</td>
         <td className="a-center ">{ingredient.price}</td>
         <td className="a-center ">{ingredient.stock}</td>
         <td>

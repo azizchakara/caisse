@@ -15,9 +15,8 @@ public class BillDto implements Serializable{
 	private long id;
 	private Date billDate;
 	private double billNumber;
-	private double total;
 	private PaiementType type;
-	
+	private OrderDto order;
 	
 	
 	
@@ -39,18 +38,18 @@ public class BillDto implements Serializable{
 	public void setBillNumber(double billNumber) {
 		this.billNumber = billNumber;
 	}
-	public double getTotal() {
-		return total;
-	}
-	public void setTotal(double total) {
-		this.total = total;
-	}
 	
 	public PaiementType getType() {
 		return type;
 	}
 	public void setType(PaiementType type) {
 		this.type = type;
+	}
+	public OrderDto getOrder() {
+		return order;
+	}
+	public void setOrder(OrderDto order) {
+		this.order = order;
 	}
 
 	

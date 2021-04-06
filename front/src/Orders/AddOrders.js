@@ -6,10 +6,12 @@ import {
   getProductByCategory,
   getProducts,
 } from "../ProductActions/ProductActions";
+import { createOrder } from "../OrderActions/OrderActions";
 import {
   getCategories,
   createCategory,
 } from "../categoryActions/CategoryActions";
+import { Link } from "react-router-dom";
 import classnames from "classnames";
 import logo from "./juce.png";
 import OrderSummary from "./OrderSummary";
@@ -23,6 +25,13 @@ class AddOrders extends Component {
     super();
 
     this.state = {
+      cmdDate: "2021-01-30",
+      cmdNum: "912",
+      total: "120000",
+      valide: false,
+      client: {
+        id: 4,
+      },
       products: [],
       orders: {},
     };
@@ -62,15 +71,39 @@ class AddOrders extends Component {
   }
   addProductsHandler = (e) => {
     let productName = e.target.getAttribute("data-productName");
+    let productId = e.target.getAttribute("data-productId");
+    let oldProducts = this.state.products;
+    let productArray = { id: productId };
+    //add checker for duplicate entries
+    /*const mapped = oldProducts.map((obj, index) => obj.id);
+    const filtered = mapped.filter(
+      (type, index) => mapped.indexOf(type) === index
+    );*/
     const oldOrders = this.state.orders;
     const oldCount = oldOrders[productName];
     oldOrders[productName] = oldCount + 1;
-    this.setState({ orders: oldOrders });
+    this.setState({
+      orders: oldOrders,
+      products: [...oldProducts, productArray],
+    });
     //console.log(this.state.orders);
   };
 
   onSubmit(e) {
     e.preventDefault();
+    console.log(this.state.orders);
+    const newOrder = {
+      //bill: this.state.bill,
+      client: this.state.client,
+      cmdDate: this.state.cmdDate,
+      cmdNum: this.state.cmdNum,
+      //orders: this.state.orders,
+      products: this.state.products,
+      total: this.state.total,
+      valide: this.state.valide,
+    };
+    console.log(newOrder);
+    this.props.createOrder(newOrder, this.props.history);
   }
   render() {
     const { categories } = this.props.categories;
@@ -81,22 +114,24 @@ class AddOrders extends Component {
         <div>
           <div className="register">
             <div className="container">
-              <div className="row">
-                <div className="col-md-8 m-auto">
-                  <p className="lead text-center">Add New Order</p>
-                  <form onSubmit={this.onSubmit}>
+              <form onSubmit={this.onSubmit}>
+                <div class="row">
+                  <div class="col">
                     <div className="form-group">
-                      <ul class="list-group">
-                        {categories.map((category) => (
-                          <li
-                            className="list-group-item"
-                            data-categoryId={category.id}
-                            onClick={this.onClick}
-                          >
-                            {category.categoryName}
-                          </li>
-                        ))}
-                      </ul>
+                      <p className="lead">List of categories</p>
+                      {categories.map((category) => (
+                        <img
+                          src={logo}
+                          classname="hover-shadow"
+                          onClick={this.onClick}
+                          style={{
+                            width: 120,
+                            margin: 10,
+                          }}
+                          data-categoryId={category.id}
+                          alt={category.categoryName}
+                        />
+                      ))}
                     </div>
                     <div className="row">
                       {products.map((product) => (
@@ -122,21 +157,20 @@ class AddOrders extends Component {
                             data-productName={product.productName}
                             data-categoryId={product.category.id}
                           >
-                            ${product.price}
+                            {product.productName} - ${product.price}
                           </span>
                         </div>
                       ))}
                     </div>
+                  </div>
+                  <div class="col">
+                    <p className="lead">Order Summary</p>
                     <OrderSummary orders={this.state.orders} />
-                    <a
-                      href="/ordersummary"
-                      className="btn btn-info btn-block mt-4"
-                    >
-                      Continue to payment
-                    </a>
-                  </form>
+                    <br></br>
+                    <input type="submit" className="btn btn-info mr-2 " />
+                  </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
@@ -152,6 +186,7 @@ const mapStateToProps = (state) => ({
   //productsCategory: state.productCategory,
 });
 export default connect(mapStateToProps, {
+  createOrder,
   getCategories,
   getProducts,
   //getProductByCategory,

@@ -13,7 +13,6 @@ class UpdateIngredient extends Component {
 
     this.state = {
       name: "",
-      quantity: "",
       price: "",
       stock: "",
     };
@@ -21,12 +20,11 @@ class UpdateIngredient extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-    const { id, name, quantity, price, stock } = nextProps.ingredient;
+    const { id, name, price, stock } = nextProps.ingredient;
 
     this.setState({
       id,
       name,
-      quantity,
       price,
       stock,
     });
@@ -46,11 +44,6 @@ class UpdateIngredient extends Component {
         errorsName: " name field is Required !",
       });
     }
-    if (quantity === "") {
-      this.setState({
-        errorsQuantity: " quantity field is Required !",
-      });
-    }
     if (price === "") {
       this.setState({
         errorsPrice: " price field is Required !",
@@ -64,7 +57,6 @@ class UpdateIngredient extends Component {
     const updateIngredient = {
       id: this.state.id,
       name: this.state.name,
-      quantity: this.state.quantity,
       price: this.state.price,
       stock: this.state.stock,
     };
@@ -116,19 +108,7 @@ class UpdateIngredient extends Component {
                       />
                       <p>{errorsName}</p>
                     </div>
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        className={classnames("form-control form-control-lg", {
-                          "is-invalid": errorsQuantity,
-                        })}
-                        placeholder="quantity"
-                        name="quantity"
-                        value={this.state.quantity}
-                        onChange={this.onChange.bind(this)}
-                      />
-                      <p>{errorsQuantity}</p>
-                    </div>
+
                     <div className="form-group">
                       <input
                         type="text"

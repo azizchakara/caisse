@@ -1,28 +1,36 @@
 package app.neotech.gestion.de.caisse.requests;
 
 import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import app.neotech.gestion.de.caisse.shared.dto.ClientDto;
 
 public class OrderRequest {
 	
-	private Date dateCmd;
-	private long numCmd;
+
+	@JsonFormat(pattern="yyyy-MM-dd")
+	private Date cmdDate;
+	private long cmdNum;
 	private double total;
 	private Boolean valide;
-	private long client_id;
+	private ClientDto client;
 	
-	public Date getDateCmd() {
-		return dateCmd;
+	private List<OrderDetailsRequest> details;
+	
+	public Date getCmdDate() {
+		return cmdDate;
 	}
-	public void setDateCmd(Date dateCmd) {
-		this.dateCmd = dateCmd;
+	public void setCmdDate(Date cmdDate) {
+		this.cmdDate = cmdDate;
 	}
-	public long getNumCmd() {
-		return numCmd;
+	public long getCmdNum() {
+		return cmdNum;
 	}
-	public void setNumCmd(long numCmd) {
-		this.numCmd = numCmd;
+	public void setCmdNum(long cmdNum) {
+		this.cmdNum = cmdNum;
 	}
-
 	public double getTotal() {
 		return total;
 	}
@@ -35,12 +43,21 @@ public class OrderRequest {
 	public void setValide(Boolean valide) {
 		this.valide = valide;
 	}
-	public long getClient_id() {
-		return client_id;
+	public ClientDto getClient() {
+		return client;
 	}
-	public void setClient_id(long client_id) {
-		this.client_id = client_id;
+	public void setClient(ClientDto client) {
+		this.client = client;
 	}
+	public List<OrderDetailsRequest> getDetails() {
+		return details;
+	}
+	public void setDetails(List<OrderDetailsRequest> details) {
+		this.details = details;
+	}
+
+	
+	
 	
 	
 }

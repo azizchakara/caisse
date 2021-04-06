@@ -3,6 +3,7 @@ package app.neotech.gestion.de.caisse.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -43,8 +45,7 @@ public class OrderEntity implements Serializable {
 	@Column(nullable = false)
 	private Boolean valide;
 
-	
-	@OneToOne
+	@OneToOne(mappedBy = "order",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "bill_id")
 	private BillEntity bill;
 
@@ -52,13 +53,17 @@ public class OrderEntity implements Serializable {
 	@JoinColumn(name = "client_id")
 	private ClientEntity client;
 
+	/*
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	private List<OrderDetailsEntity> details; 
+	*/
+
 	@ManyToMany
 	@JoinTable(name = "products_orders", joinColumns = { @JoinColumn(name = "orders_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "products_id") })
 	private Set<ProductEntity> products = new HashSet<>();
 	
 	
-
 	public long getId() {
 		return id;
 	}
@@ -66,7 +71,6 @@ public class OrderEntity implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
-
 
 	public Date getCmdDate() {
 		return cmdDate;
@@ -100,14 +104,6 @@ public class OrderEntity implements Serializable {
 		this.valide = valide;
 	}
 
-	public ClientEntity getClient() {
-		return client;
-	}
-
-	public void setClient(ClientEntity client) {
-		this.client = client;
-	}
-
 	public BillEntity getBill() {
 		return bill;
 	}
@@ -115,6 +111,23 @@ public class OrderEntity implements Serializable {
 	public void setBill(BillEntity bill) {
 		this.bill = bill;
 	}
+
+	public ClientEntity getClient() {
+		return client;
+	}
+
+	public void setClient(ClientEntity client) {
+		this.client = client;
+	}
+/*
+	public List<OrderDetailsEntity> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<OrderDetailsEntity> details) {
+		this.details = details;
+	}
+*/
 
 	public Set<ProductEntity> getProducts() {
 		return products;
@@ -125,6 +138,10 @@ public class OrderEntity implements Serializable {
 	}
 
 	
+
+	
+
+
 	
 	
 	

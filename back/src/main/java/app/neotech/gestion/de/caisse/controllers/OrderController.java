@@ -1,9 +1,13 @@
 package app.neotech.gestion.de.caisse.controllers;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -18,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import app.neotech.gestion.de.caisse.requests.OrderRequest;
+import app.neotech.gestion.de.caisse.responses.OrderResponse;
 import app.neotech.gestion.de.caisse.services.ClientService;
 import app.neotech.gestion.de.caisse.services.OrderService;
 import app.neotech.gestion.de.caisse.shared.dto.OrderDto;
@@ -34,16 +41,29 @@ public class OrderController {
 	ClientService clientService;
 	
 	@GetMapping(path="/{id}")
-	public ResponseEntity<OrderDto> getOrder(@PathVariable Long id) {
+	public OrderResponse getOrder(@PathVariable Long id) {
 		OrderDto orderDto = orderService.getOrderById(id);
-		return new ResponseEntity<OrderDto>(orderDto,HttpStatus.OK);
+		OrderResponse orderResponse = new OrderResponse();
+		BeanUtils.copyProperties(orderDto, orderResponse);
+		return orderResponse;
 	}
-	
+	/*
+	@PostMapping  
+	public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest orderRequest) {
+		ModelMapper modelMapper = new ModelMapper();
+		OrderDto orderDto = modelMapper.map(orderRequest, OrderDto.class);
+		OrderDto createOrder = orderService.createOrder(orderDto);
+		OrderResponse orderResponse = modelMapper.map(createOrder, OrderResponse.class);
+		return new ResponseEntity<OrderResponse>(orderResponse,HttpStatus.CREATED);
+		
+	}
+	*/
 	@PostMapping  
 	public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto) {
 		OrderDto createOrder = orderService.createOrder(orderDto);
 		return new ResponseEntity<OrderDto>(createOrder,HttpStatus.CREATED);
 	}
+	
 	
 	@PutMapping(path="/{id}")
 	public ResponseEntity<OrderDto> updateOrder(@PathVariable Long id,@RequestBody OrderDto orderDto) {
@@ -82,7 +102,23 @@ public class OrderController {
 		return new ResponseEntity<Set<OrderDto>>(orders,HttpStatus.OK);
 		
 	}
-	
+	/*
+	@GetMapping(path="/all")
+	public List<OrderResponse>getAllOrders(@RequestParam(value="page",defaultValue="0") int page,@RequestParam(value="limit", defaultValue="15") int limit){
+			
+			List<OrderResponse> orderResponse = new ArrayList<>();
+			List<OrderDto> orders = orderService.getOrders(page,limit);
+			for(OrderDto orderDto: orders) {
+				OrderResponse order = new OrderResponse();
+				BeanUtils.copyProperties(orderDto, order);
+				orderResponse.add(order);
+			}
+			
+			return orderResponse;
+			
+	}
+
+*/
 	@GetMapping(path="/all")
 	public ResponseEntity<List<OrderDto>>getAllOrders(@RequestParam(value="page",defaultValue="1") int page,@RequestParam(value="limit", defaultValue="15") int limit){
 			List<OrderDto> orders = orderService.getOrders(page,limit);

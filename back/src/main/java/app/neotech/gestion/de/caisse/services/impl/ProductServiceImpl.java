@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
 		if(productEntity == null) return null;
 		productEntity.setProductName(productDto.getProductName());
 		productEntity.setPrice(productDto.getPrice());
-		productEntity.setQuantity(productDto.getQuantity());
+		
 		productEntity.setStock(productDto.getStock());
 		productEntity.setCodeBar(productDto.getCodeBar());
 		ProductEntity productUpdated = productRepository.save(productEntity);

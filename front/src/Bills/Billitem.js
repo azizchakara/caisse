@@ -19,6 +19,8 @@ class Billitem extends Component {
         <td>
           <Link to={`/updatebill/${bill.id}`}>Modify</Link> <br />
           <Link onClick={this.onDeleteClick.bind(this, bill.id)}> Delete </Link>
+          <br />
+          <Link to={`/bill/${bill.id}`}>Print</Link>
         </td>
       </tr>
     );

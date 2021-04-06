@@ -16,5 +16,4 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
 	BillEntity findBillById(Long id);
 	List<BillEntity> findBillsBybillDate(Date start );
 	List<BillEntity> findBillsBybillDateBetween(Date start, Date end);
-	List<BillEntity> findBillsBybillDateBetweenAndTotalLessThan(Date start, Date end, Double total);
 }

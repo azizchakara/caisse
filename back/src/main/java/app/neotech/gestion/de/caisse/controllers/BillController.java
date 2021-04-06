@@ -65,17 +65,12 @@ public class BillController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
-	@GetMapping(path="/date/{dateFacture}")
-	public ResponseEntity<List<BillDto>> getBillsByDate(@PathVariable("dateFacture") @DateTimeFormat(pattern="yyyy-MM-dd") Date dateFacture)  throws Exception, RessourceNotFoundException{
-		List<BillDto> bills = billService.getBillsByDate(dateFacture);
+	@GetMapping(path="/date/{billDate}")
+	public ResponseEntity<List<BillDto>> getBillsByDate(@PathVariable("billDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date billDate)  throws Exception, RessourceNotFoundException{
+		List<BillDto> bills = billService.getBillsByDate(billDate);
 		return new ResponseEntity<List<BillDto>>(bills,HttpStatus.OK);
 	}
-	
-	@GetMapping(path="/{start}/{end}/{total}")
-	public ResponseEntity<List<BillDto>> getBillsBetweenAndLess(@PathVariable("start") @DateTimeFormat(pattern="yyyy-MM-dd") Date start,@PathVariable("end") @DateTimeFormat(pattern="yyyy-MM-dd") Date end,@PathVariable("total") double total) throws Exception,RessourceNotFoundException{		
-		List<BillDto> bills = billService.getBillsBetweenDatesAndTotalLess(start, end, total);
-		return new ResponseEntity<List<BillDto>>(bills,HttpStatus.OK);
-	}
+
 	
 	@GetMapping(path="/{start}/{end}")
 	public ResponseEntity<List<BillDto>>getBillsBetween(@PathVariable("start") @DateTimeFormat(pattern="yyyy-MM-dd") Date start,@PathVariable("end") @DateTimeFormat(pattern="yyyy-MM-dd") Date end) throws Exception,RessourceNotFoundException{

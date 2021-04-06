@@ -1,18 +1,24 @@
 package app.neotech.gestion.de.caisse.services.impl;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import app.neotech.gestion.de.caisse.entities.OrderEntity;
 import app.neotech.gestion.de.caisse.mapper.OrderMapper;
 import app.neotech.gestion.de.caisse.repositories.ClientRepository;
 import app.neotech.gestion.de.caisse.repositories.OrderRepository;
 import app.neotech.gestion.de.caisse.services.OrderService;
+import app.neotech.gestion.de.caisse.shared.dto.OrderDetailsDto;
 import app.neotech.gestion.de.caisse.shared.dto.OrderDto;
 
 
@@ -31,6 +37,19 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public OrderDto createOrder(OrderDto order) {
+
+		/*
+		for (int i=0; i < order.getDetails().size(); i++) {
+			OrderDetailsDto details = order.getDetails().get(i);
+			details.setOrder(order);
+			order.getDetails().set(i, details);
+		}
+		ModelMapper modelMapper = new ModelMapper();
+		OrderEntity orderEntity = modelMapper.map(order, OrderEntity.class);
+		OrderEntity newOrder = orderRepository.save(orderEntity);
+		OrderDto orderDto = modelMapper.map(newOrder, OrderDto.class);
+		return orderDto;
+		*/
 		OrderEntity orderEntity = orderMapper.modelToEntity(order);
 		OrderEntity newOrder = orderRepository.save(orderEntity);
 		return orderMapper.entityToModel(newOrder);
@@ -42,9 +61,10 @@ public class OrderServiceImpl implements OrderService {
 		
 		OrderEntity orderEntity = orderRepository.findOrderById(id);
 		if(orderEntity == null) throw null;
-		OrderDto orderDto = orderMapper.entityToModel(orderEntity);
-		return orderDto;
+		ModelMapper modelMapper = new ModelMapper();
 		
+		OrderDto orderDto = modelMapper.map(orderEntity, OrderDto.class);
+		return orderDto;
 	}
 
 
@@ -110,7 +130,22 @@ public class OrderServiceImpl implements OrderService {
 		return orderDto;
 	}
 
+/*
+	@Override
+	public List<OrderDto> getOrders(int page, int limit) {
+		List<OrderDto> orderDto = new ArrayList<>();
+		Pageable pageableRequest = PageRequest.of(page, limit);
+		Page<OrderEntity> orderPage = orderRepository.findAll(pageableRequest);
+		List<OrderEntity> orders = orderPage.getContent();
+		for(OrderEntity orderEntity: orders) {
+			OrderDto order = new OrderDto();
+			BeanUtils.copyProperties(orderEntity, order);
+			orderDto.add(order);
+		}
+		return orderDto;
+	}
 
+*/
 	@Override
 	public List<OrderDto> getOrders(int page, int limit) {
 		List<OrderEntity> orders = orderRepository.findAll();
@@ -119,8 +154,6 @@ public class OrderServiceImpl implements OrderService {
 		List<OrderDto> orderDto = modelMapper.map(orders, listType);
 		return orderDto;
 	}
-
-
 
 
 }

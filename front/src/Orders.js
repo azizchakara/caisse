@@ -45,7 +45,7 @@ class Orders extends Component {
                         <th>Order Number</th>
                         <th>Total</th>
                         <th>Client</th>
-                        <th>Bill</th>
+
                         <th>Products</th>
                       </tr>
                     </thead>

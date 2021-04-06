@@ -5,8 +5,7 @@ import { createProduct } from "../ProductActions/ProductActions";
 import { getCategories } from "../categoryActions/CategoryActions";
 import { getIngredients } from "../IngredientActions/IngredientActions";
 import classnames from "classnames";
-import Select from "react-select";
-
+import ReactSelect from "react-select";
 class AddProducts extends Component {
   componentDidMount() {
     this.props.getCategories();
@@ -14,7 +13,6 @@ class AddProducts extends Component {
   }
   constructor() {
     super();
-
     this.state = {
       productName: "",
       quantity: "",
@@ -33,6 +31,10 @@ class AddProducts extends Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onChangeSelect = this.onChangeSelect.bind(this);
+  }
+  onChangeSelect(e) {
+    this.setState({ ingredients: e });
   }
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
@@ -45,13 +47,11 @@ class AddProducts extends Component {
       let res = [];
       values.map((el) => (res["id"] = el));
       let obj = Object.assign({}, values);
-
       this.setState({ ingredients: values });
     } else {
       this.setState({ [e.target.name]: e.target.value });
     }*/
   }
-
   onSubmit(e) {
     e.preventDefault();
     const {
@@ -100,15 +100,14 @@ class AddProducts extends Component {
     }
     const newProduct = {
       productName: this.state.productName,
-      quantity: this.state.quantity,
       price: this.state.price,
       stock: this.state.stock,
       codeBar: this.state.codeBar,
       category: { id: this.state.category },
       ingredients: [{ id: this.state.ingredients }],
     };
-    console.log(this.state);
-    this.props.createProduct(newProduct, this.props.history);
+    console.log(newProduct);
+    //this.props.createProduct(newProduct, this.props.history);
   }
   render() {
     const { categories } = this.props.categories;
@@ -144,19 +143,6 @@ class AddProducts extends Component {
                       />
                       <p>{errorsProductName}</p>
                     </div>
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        className={classnames("form-control form-control-lg", {
-                          "is-invalid": errorsQuantity,
-                        })}
-                        placeholder="Quantity"
-                        name="quantity"
-                        value={this.state.quantity}
-                        onChange={this.onChange.bind(this)}
-                      />
-                      <p>{errorsQuantity}</p>
-                    </div>
 
                     <div className="form-group">
                       <input
@@ -171,7 +157,6 @@ class AddProducts extends Component {
                       />
                       <p>{errorsPrice}</p>
                     </div>
-
                     <div className="form-group">
                       <input
                         type="text"
@@ -215,7 +200,7 @@ class AddProducts extends Component {
                       </select>
                       <p>{errorsCategory}</p>
                     </div>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                       <select
                         className={classnames("form-control form-control-lg", {
                           "is-invalid": errorsIngredients,
@@ -232,8 +217,25 @@ class AddProducts extends Component {
                         ))}
                       </select>
                       <p>{errorsIngredients}</p>
+                    </div> */}
+                    <div className="form-group">
+                      <ReactSelect
+                        value={this.state.ingredients.id}
+                        isMulti
+                        name="colors"
+                        options={ingredients}
+                        getOptionLabel={(option) => {
+                          return option.name;
+                        }}
+                        getOptionValue={(option) => {
+                          return option.name;
+                        }}
+                        onChange={this.onChangeSelect}
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                      />
+                      <p>{errorsIngredients}</p>
                     </div>
-
                     <input
                       type="submit"
                       className="btn btn-info btn-block mt-4"
@@ -248,7 +250,6 @@ class AddProducts extends Component {
     );
   }
 }
-
 AddProducts.propTypes = {
   createProduct: PropTypes.func.isRequired,
 };

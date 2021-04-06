@@ -11,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -37,15 +38,13 @@ public class BillEntity implements Serializable{
 	
 	@Column(nullable=false)
 	private double billNumber;
-	
-	@Column(nullable=false)
-	private double total;
-	
+
 	@Enumerated(EnumType.STRING)
 	private PaiementType type;
 	
-	@OneToOne(mappedBy = "bill",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	 private OrderEntity orders;
+	@OneToOne
+	@JoinColumn(name = "order_id")
+	 private OrderEntity order;
 
 	public long getId() {
 		return id;
@@ -55,7 +54,6 @@ public class BillEntity implements Serializable{
 		this.id = id;
 	}
 
-		
 	public Date getBillDate() {
 		return billDate;
 	}
@@ -72,14 +70,6 @@ public class BillEntity implements Serializable{
 		this.billNumber = billNumber;
 	}
 
-	public double getTotal() {
-		return total;
-	}
-
-	public void setTotal(double total) {
-		this.total = total;
-	}
-
 	public PaiementType getType() {
 		return type;
 	}
@@ -88,13 +78,15 @@ public class BillEntity implements Serializable{
 		this.type = type;
 	}
 
-	public OrderEntity getOrders() {
-		return orders;
+	public OrderEntity getOrder() {
+		return order;
 	}
 
-	public void setOrders(OrderEntity orders) {
-		this.orders = orders;
+	public void setOrder(OrderEntity order) {
+		this.order = order;
 	}
+
+	
 	
 	
 	

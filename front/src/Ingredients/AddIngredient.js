@@ -9,7 +9,6 @@ class AddIngredient extends Component {
     super();
     this.state = {
       name: "",
-      quantity: "",
       price: "",
       stock: "",
       errorsName: "",
@@ -35,11 +34,6 @@ class AddIngredient extends Component {
         errorsName: " name field is Required !",
       });
     }
-    if (quantity === "") {
-      this.setState({
-        errorsQuantity: " quantity field is Required !",
-      });
-    }
     if (price === "") {
       this.setState({
         errorsPrice: " price field is Required !",
@@ -52,7 +46,6 @@ class AddIngredient extends Component {
     }
     const newIngredient = {
       name: this.state.name,
-      quantity: this.state.quantity,
       price: this.state.price,
       stock: this.state.stock,
     };
@@ -101,19 +94,6 @@ class AddIngredient extends Component {
                         onChange={this.onChange.bind(this)}
                       />
                       <p>{errorsName}</p>
-                    </div>
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        className={classnames("form-control form-control-lg", {
-                          "is-invalid": errorsQuantity,
-                        })}
-                        placeholder="Quantity"
-                        name="quantity"
-                        value={this.state.quantity}
-                        onChange={this.onChange.bind(this)}
-                      />
-                      <p>{errorsQuantity}</p>
                     </div>
                     <div className="form-group">
                       <input

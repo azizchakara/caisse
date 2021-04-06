@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 import app.neotech.gestion.de.caisse.entities.OrderEntity;
 import app.neotech.gestion.de.caisse.shared.dto.OrderDto;
 
-@Mapper(componentModel = "spring", uses = { ClientMapper.class, BillMapper.class, ProductMapper.class})
+@Mapper(componentModel = "spring", uses = { ClientMapper.class, ProductMapper.class})
 public interface OrderMapper {
 
 	OrderDto entityToModel(OrderEntity source);

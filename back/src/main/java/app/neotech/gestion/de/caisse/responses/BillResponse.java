@@ -14,7 +14,6 @@ public class BillResponse {
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date billDate;
 	private double billNumber;
-	private double total;
 	private PaiementType type;
 	public long getId() {
 		return id;
@@ -33,12 +32,6 @@ public class BillResponse {
 	}
 	public void setBillNumber(double billNumber) {
 		this.billNumber = billNumber;
-	}
-	public double getTotal() {
-		return total;
-	}
-	public void setTotal(double total) {
-		this.total = total;
 	}
 	public PaiementType getType() {
 		return type;

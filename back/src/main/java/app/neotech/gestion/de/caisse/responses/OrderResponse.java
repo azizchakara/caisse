@@ -1,28 +1,43 @@
 package app.neotech.gestion.de.caisse.responses;
 
 import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import app.neotech.gestion.de.caisse.shared.dto.ClientDto;
+import app.neotech.gestion.de.caisse.shared.dto.OrderDetailsDto;
 
 public class OrderResponse {
 
-	private Date dateCmd;
-	private long numCmd;
+	private long id;
+	@JsonFormat(pattern="yyyy-MM-dd")
+	private Date cmdDate;
+	private long cmdNum;
 	private double total;
 	private Boolean valide;
+	private ClientDto client;
 	
 	
-	public Date getDateCmd() {
-		return dateCmd;
+	
+	public long getId() {
+		return id;
 	}
-	public void setDateCmd(Date dateCmd) {
-		this.dateCmd = dateCmd;
+	public void setId(long id) {
+		this.id = id;
 	}
-	public long getNumCmd() {
-		return numCmd;
+	public Date getCmdDate() {
+		return cmdDate;
 	}
-	public void setNumCmd(long numCmd) {
-		this.numCmd = numCmd;
+	public void setCmdDate(Date cmdDate) {
+		this.cmdDate = cmdDate;
 	}
-
+	public long getCmdNum() {
+		return cmdNum;
+	}
+	public void setCmdNum(long cmdNum) {
+		this.cmdNum = cmdNum;
+	}
 	public double getTotal() {
 		return total;
 	}
@@ -35,6 +50,11 @@ public class OrderResponse {
 	public void setValide(Boolean valide) {
 		this.valide = valide;
 	}
-	
-	
+	public ClientDto getClient() {
+		return client;
+	}
+	public void setClient(ClientDto client) {
+		this.client = client;
+	}
+
 }

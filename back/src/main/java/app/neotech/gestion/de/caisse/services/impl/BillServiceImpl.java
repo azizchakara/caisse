@@ -43,7 +43,6 @@ public class BillServiceImpl implements BillService {
 		if(billEntity==null) throw null; 
 		billEntity.setBillDate(billDto.getBillDate());
 		billEntity.setBillNumber(billDto.getBillNumber());
-		billEntity.setTotal(billDto.getTotal());
 		BillEntity billUpdated = billRepository.save(billEntity);
 		BillDto bill = new BillDto();
 		BeanUtils.copyProperties(billUpdated, bill);
@@ -89,14 +88,6 @@ public class BillServiceImpl implements BillService {
 
 
 	@Override
-	public List<BillDto> getBillsBetweenDatesAndTotalLess(Date start, Date end, Double total) {
-		List<BillEntity> bills = billRepository.findBillsBybillDateBetweenAndTotalLessThan(start, end, total);
-		List<BillDto> billDto = billMapper.entitiesToModels(bills);
-		return billDto;
-	}
-
-
-	@Override
 	public List<BillDto> getBills(int page, int limit) {
 		if(page > 0) page -=1;
 		List<BillDto> billsDto = new ArrayList<>();
@@ -110,6 +101,7 @@ public class BillServiceImpl implements BillService {
 		}
 		return billsDto;
 	}
+
 
 
 	
