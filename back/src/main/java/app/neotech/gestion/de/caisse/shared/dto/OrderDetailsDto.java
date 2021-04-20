@@ -37,6 +37,7 @@ public class OrderDetailsDto implements Serializable{
 	public void setQuantity(long quantity) {
 		this.quantity = quantity;
 	}
+	
 	public OrderDto getOrder() {
 		return order;
 	}

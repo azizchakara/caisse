@@ -8,6 +8,7 @@ import billReducer from "./billReducer";
 import productReducer from "./productReducer";
 import productsByCategory from "./productReducer";
 import orderReducer from "./orderReducer";
+import tablesReducer from "./tablesReducer";
 
 export default combineReducers({
   errors: errorReducer,
@@ -19,4 +20,6 @@ export default combineReducers({
   product: productReducer,
   productCategory: productsByCategory,
   order: orderReducer,
+  tables: tablesReducer,
+  clients: clientReducer,
 });

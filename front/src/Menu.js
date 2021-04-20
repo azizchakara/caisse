@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export default class Menu extends Component {
   render() {
@@ -6,9 +7,6 @@ export default class Menu extends Component {
       <div>
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
           <div className="sidebar">
-            <div className="user-panel mt-3 pb-3 mb-3 d-flex">
-              <div className="image"></div>
-            </div>
             {/* Sidebar Menu */}
             <nav className="mt-2">
               <ul
@@ -28,19 +26,19 @@ export default class Menu extends Component {
                 </li>
 
                 <li className="nav-item has-treeview">
-                  <a href="clients" className="nav-link">
+                  <Link to="clients" className="nav-link">
                     <p>Clients</p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item has-treeview">
-                  <a href="orders" className="nav-link">
+                  <Link to="orders" className="nav-link">
                     <p>Orders</p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item has-treeview">
-                  <a href="categories" className="nav-link">
+                  <Link to="categories" className="nav-link">
                     <p>Categories</p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item has-treeview">
                   <a href="products" className="nav-link">
@@ -48,15 +46,20 @@ export default class Menu extends Component {
                   </a>
                 </li>
                 <li className="nav-item has-treeview">
-                  <a href="ingredients" className="nav-link">
+                  <Link to="ingredients" className="nav-link">
                     <p>Ingredients</p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item has-treeview">
-                  <a href="bills" className="nav-link">
+                  <Link to="bills" className="nav-link">
                     <p>Bills</p>
-                  </a>
+                  </Link>
                 </li>
+                {/*<li className="nav-item has-treeview">
+                  <Link to="tables" className="nav-link">
+                    <p>Tables</p>
+                  </Link>
+                </li> */}
               </ul>
             </nav>
             {/* /.sidebar-menu */}

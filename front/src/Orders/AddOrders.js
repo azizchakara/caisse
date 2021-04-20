@@ -11,6 +11,8 @@ import {
   getCategories,
   createCategory,
 } from "../categoryActions/CategoryActions";
+import { getTables } from "../TablesActions/TablesActions";
+import { getClients } from "../Actions/ClientActions";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
 import logo from "./juce.png";
@@ -20,28 +22,29 @@ class AddOrders extends Component {
   componentDidMount() {
     this.props.getCategories();
     this.props.getProducts();
+    this.props.getTables();
+    this.props.getClients();
   }
   constructor() {
     super();
-
     this.state = {
       cmdDate: "2021-01-30",
-      cmdNum: "912",
-      total: "120000",
+      cmdNum: "1200",
+      total: "22789",
       valide: false,
-      client: {
-        id: 4,
-      },
-      products: [],
+      client: {},
+      details: [],
       orders: {},
+      table: {},
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onClick = this.onClick.bind(this);
   }
   onChange(e) {
-    //this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value });
   }
+
   onClick(e) {
     let categoryId = e.target.getAttribute("data-categoryId");
     let oldOrders = this.state.orders;
@@ -72,8 +75,9 @@ class AddOrders extends Component {
   addProductsHandler = (e) => {
     let productName = e.target.getAttribute("data-productName");
     let productId = e.target.getAttribute("data-productId");
-    let oldProducts = this.state.products;
-    let productArray = { id: productId };
+    let productPrice = e.target.getAttribute("data-productPrice");
+    let oldProducts = this.state.details;
+
     //add checker for duplicate entries
     /*const mapped = oldProducts.map((obj, index) => obj.id);
     const filtered = mapped.filter(
@@ -82,37 +86,90 @@ class AddOrders extends Component {
     const oldOrders = this.state.orders;
     const oldCount = oldOrders[productName];
     oldOrders[productName] = oldCount + 1;
+    let totalArray = [];
+
+    let productArray = {
+      name: productName,
+      quantity: oldOrders[productName],
+      //price: productPrice * oldOrders[productName],
+    };
+
+    //console.log(productArray);
     this.setState({
-      orders: oldOrders,
-      products: [...oldProducts, productArray],
+      details: [...oldProducts, productArray],
     });
-    //console.log(this.state.orders);
   };
 
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state.orders);
+    //console.log(this.state.orders);
     const newOrder = {
       //bill: this.state.bill,
       client: this.state.client,
       cmdDate: this.state.cmdDate,
       cmdNum: this.state.cmdNum,
       //orders: this.state.orders,
-      products: this.state.products,
+      details: this.state.details,
       total: this.state.total,
       valide: this.state.valide,
+      table: this.state.table,
     };
     console.log(newOrder);
     this.props.createOrder(newOrder, this.props.history);
   }
+  onSelectTable = (e) => {
+    e.preventDefault();
+    this.setState({ table: { id: e.target.value } });
+  };
+  onSelectClient = (e) => {
+    e.preventDefault();
+    this.setState({ client: { id: e.target.value } });
+  };
   render() {
     const { categories } = this.props.categories;
     const { products } = this.props.products;
     const { orders } = this.state;
+    const { tables } = this.props.tables;
+    const { clients } = this.props.clients;
+    console.log(clients);
     return (
       <div className="content-wrapper">
         <div>
           <div className="register">
+            <div class="container">
+              <div class="row">
+                <div class="col">
+                  <p className="lead">List of Clients</p>
+                  <select
+                    className="form-control"
+                    aria-label="Default select"
+                    onChange={this.onSelectClient}
+                  >
+                    <option selected>Open this select menu</option>
+                    {clients.map((client) => (
+                      <option value={client.id}>
+                        {client.firstName} {client.lastName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <p className="lead">List of Tables</p>
+                  <select
+                    className="form-control"
+                    aria-label="Default select"
+                    onChange={this.onSelectTable}
+                  >
+                    <option selected>Table N:</option>
+                    {tables.map((table) => (
+                      <option value={table.id}>{table.tablenum}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
             <div className="container">
               <form onSubmit={this.onSubmit}>
                 <div class="row">
@@ -148,6 +205,7 @@ class AddOrders extends Component {
                             data-productId={product.id}
                             data-productName={product.productName}
                             data-categoryId={product.category.id}
+                            data-productPrice={product.price}
                             alt={product.productName}
                             id={product.category.id}
                           />
@@ -183,11 +241,16 @@ const mapStateToProps = (state) => ({
   all: state,
   categories: state.category,
   products: state.product,
+  orders: state.orders,
+  tables: state.tables,
+  clients: state.clients,
   //productsCategory: state.productCategory,
 });
 export default connect(mapStateToProps, {
   createOrder,
   getCategories,
   getProducts,
+  getTables,
+  getClients,
   //getProductByCategory,
 })(AddOrders);

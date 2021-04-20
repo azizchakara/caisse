@@ -1,12 +1,14 @@
 package app.neotech.gestion.de.caisse.controllers;
 
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,9 +26,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.neotech.gestion.de.caisse.requests.OrderRequest;
+import app.neotech.gestion.de.caisse.responses.OrderDetailsResponse;
 import app.neotech.gestion.de.caisse.responses.OrderResponse;
 import app.neotech.gestion.de.caisse.services.ClientService;
 import app.neotech.gestion.de.caisse.services.OrderService;
+import app.neotech.gestion.de.caisse.shared.dto.OrderDetailsDto;
 import app.neotech.gestion.de.caisse.shared.dto.OrderDto;
 
 @RestController
@@ -47,7 +51,7 @@ public class OrderController {
 		BeanUtils.copyProperties(orderDto, orderResponse);
 		return orderResponse;
 	}
-	/*
+
 	@PostMapping  
 	public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest orderRequest) {
 		ModelMapper modelMapper = new ModelMapper();
@@ -57,13 +61,15 @@ public class OrderController {
 		return new ResponseEntity<OrderResponse>(orderResponse,HttpStatus.CREATED);
 		
 	}
-	*/
+
+	
+	/*
 	@PostMapping  
 	public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto) {
 		OrderDto createOrder = orderService.createOrder(orderDto);
 		return new ResponseEntity<OrderDto>(createOrder,HttpStatus.CREATED);
 	}
-	
+	*/
 	
 	@PutMapping(path="/{id}")
 	public ResponseEntity<OrderDto> updateOrder(@PathVariable Long id,@RequestBody OrderDto orderDto) {
@@ -78,10 +84,12 @@ public class OrderController {
 	}
 	
 	@GetMapping(path="clients/{id}")
-	public ResponseEntity<List<OrderDto>>getOrdersByIdClient(@PathVariable Long id) {
-		
-		List<OrderDto> orders=orderService.getOrdersByClientId(id);
-		return new ResponseEntity<List<OrderDto>>(orders,HttpStatus.OK);
+	public ResponseEntity<List<OrderResponse>>getOrdersByIdClient(@PathVariable Long id) {
+		List<OrderDto> orders = orderService.getOrdersByClientId(id);
+		ModelMapper modelMapper = new ModelMapper();
+		Type listType = new TypeToken<List<OrderResponse>>() {}.getType();
+		List<OrderResponse> clientorders = modelMapper.map(orders, listType);
+		return new ResponseEntity<List<OrderResponse>>(clientorders,HttpStatus.OK);
 		
 	}
 	@GetMapping(path="/date/{dateCmd}" )
@@ -91,38 +99,36 @@ public class OrderController {
 	}
 	
 	@GetMapping(path="/{id}/{start}/{end}")
-	public ResponseEntity<List<OrderDto>> getOrdersByClientIdBetween(@PathVariable Long id,@PathVariable("start") @DateTimeFormat(pattern="yyyy-MM-dd") Date start,@PathVariable("end") @DateTimeFormat(pattern="yyyy-MM-dd") Date end ){
+	public ResponseEntity<List<OrderResponse>> getOrdersByClientIdBetween(@PathVariable Long id,@PathVariable("start") @DateTimeFormat(pattern="yyyy-MM-dd") Date start,@PathVariable("end") @DateTimeFormat(pattern="yyyy-MM-dd") Date end ){
 		List<OrderDto> orders = orderService.getOrdersByClientIdAndBetweenDate(id, start, end);
-		return new ResponseEntity<List<OrderDto>>(orders,HttpStatus.OK);
+		ModelMapper modelMapper = new ModelMapper();
+		Type listType = new TypeToken<List<OrderResponse>>() {}.getType();
+		List<OrderResponse> clientorders = modelMapper.map(orders, listType);
+		return new ResponseEntity<List<OrderResponse>>(clientorders,HttpStatus.OK);
+		//return new ResponseEntity<List<OrderDto>>(orders,HttpStatus.OK);
 	}
 	
 	@GetMapping(path="/{start}/{end}")
-	public ResponseEntity<Set<OrderDto>>getOrdersBetween(@PathVariable("start") @DateTimeFormat(pattern="yyyy-MM-dd") Date start,@PathVariable("end") @DateTimeFormat(pattern="yyyy-MM-dd") Date end){
-		Set<OrderDto> orders=orderService.gerOrdersBetweenDates(start, end);
-		return new ResponseEntity<Set<OrderDto>>(orders,HttpStatus.OK);
+	public ResponseEntity<Set<OrderResponse>>getOrdersBetween(@PathVariable("start") @DateTimeFormat(pattern="yyyy-MM-dd") Date start,@PathVariable("end") @DateTimeFormat(pattern="yyyy-MM-dd") Date end){
+		Set<OrderDto> orders = orderService.gerOrdersBetweenDates(start, end);
+		ModelMapper modelMapper = new ModelMapper();
+		Type listType = new TypeToken<Set<OrderResponse>>() {}.getType();
+		Set<OrderResponse> listorders = modelMapper.map(orders, listType);
+		return new ResponseEntity<Set<OrderResponse>>(listorders,HttpStatus.OK);
 		
 	}
-	/*
+
 	@GetMapping(path="/all")
-	public List<OrderResponse>getAllOrders(@RequestParam(value="page",defaultValue="0") int page,@RequestParam(value="limit", defaultValue="15") int limit){
-			
-			List<OrderResponse> orderResponse = new ArrayList<>();
-			List<OrderDto> orders = orderService.getOrders(page,limit);
+	public List<OrderResponse>getAllOrders(@RequestParam(value="page",defaultValue="1") int page,@RequestParam(value="limit", defaultValue="15") int limit){
+	
+			List<OrderResponse> ordersResponse = new ArrayList<>();
+			List<OrderDto> orders = orderService.getOrders(page, limit);
 			for(OrderDto orderDto: orders) {
 				OrderResponse order = new OrderResponse();
 				BeanUtils.copyProperties(orderDto, order);
-				orderResponse.add(order);
+				ordersResponse.add(order);
 			}
-			
-			return orderResponse;
-			
-	}
-
-*/
-	@GetMapping(path="/all")
-	public ResponseEntity<List<OrderDto>>getAllOrders(@RequestParam(value="page",defaultValue="1") int page,@RequestParam(value="limit", defaultValue="15") int limit){
-			List<OrderDto> orders = orderService.getOrders(page,limit);
-			return new ResponseEntity<List<OrderDto>>(orders,HttpStatus.OK);
+			return ordersResponse;
 	}
 
 	

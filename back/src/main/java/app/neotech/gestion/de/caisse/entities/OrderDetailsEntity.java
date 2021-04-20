@@ -26,13 +26,12 @@ public class OrderDetailsEntity implements Serializable{
 	@Column(nullable=false)
 	private long quantity;
 	
-	/*
+	
 	@ManyToOne
 	@JoinColumn(name = "order_id")
 	private OrderEntity order;
 	
-	*/
-
+	
 	public long getId() {
 		return id;
 	}
@@ -58,7 +57,7 @@ public class OrderDetailsEntity implements Serializable{
 	public void setQuantity(long quantity) {
 		this.quantity = quantity;
 	}
-/*
+
 	public OrderEntity getOrder() {
 		return order;
 	}
@@ -67,6 +66,6 @@ public class OrderDetailsEntity implements Serializable{
 		this.order = order;
 	}
 
-	*/
+	
 	
 }

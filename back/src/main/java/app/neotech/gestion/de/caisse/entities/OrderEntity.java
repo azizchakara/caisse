@@ -53,16 +53,20 @@ public class OrderEntity implements Serializable {
 	@JoinColumn(name = "client_id")
 	private ClientEntity client;
 
-	/*
+
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	private List<OrderDetailsEntity> details; 
-	*/
+
 
 	@ManyToMany
 	@JoinTable(name = "products_orders", joinColumns = { @JoinColumn(name = "orders_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "products_id") })
 	private Set<ProductEntity> products = new HashSet<>();
 	
+	
+	@OneToOne
+	@JoinColumn(name = "table_id")
+	 private TableEntity table;
 	
 	public long getId() {
 		return id;
@@ -119,7 +123,7 @@ public class OrderEntity implements Serializable {
 	public void setClient(ClientEntity client) {
 		this.client = client;
 	}
-/*
+
 	public List<OrderDetailsEntity> getDetails() {
 		return details;
 	}
@@ -127,7 +131,6 @@ public class OrderEntity implements Serializable {
 	public void setDetails(List<OrderDetailsEntity> details) {
 		this.details = details;
 	}
-*/
 
 	public Set<ProductEntity> getProducts() {
 		return products;
@@ -137,12 +140,14 @@ public class OrderEntity implements Serializable {
 		this.products = products;
 	}
 
-	
+	public TableEntity getTable() {
+		return table;
+	}
 
-	
+	public void setTable(TableEntity table) {
+		this.table = table;
+	}
 
-
-	
 	
 	
 }

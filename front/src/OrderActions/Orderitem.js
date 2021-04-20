@@ -13,13 +13,6 @@ class Orderitem extends Component {
         <td className="a-center ">{order.cmdNum}</td>
         <td className="a-center ">{order.total}</td>
         <td className="a-center ">{order.client.codeClient}</td>
-        <td className="a-center ">
-          <ul>
-            {order.products.map((product) => {
-              return <li>{product.productName}</li>;
-            })}
-          </ul>
-        </td>
       </tr>
     );
   }

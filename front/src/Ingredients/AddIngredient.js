@@ -28,7 +28,7 @@ class AddIngredient extends Component {
   }
   onSubmit(e) {
     e.preventDefault();
-    const { name, quantity, price, stock } = this.state;
+    const { name, price, stock } = this.state;
     if (name === "") {
       this.setState({
         errorsName: " name field is Required !",
@@ -52,7 +52,7 @@ class AddIngredient extends Component {
     this.props.createIngredient(newIngredient, this.props.history);
   }
   render() {
-    const { errorsName, errorsQuantity, errorsPrice, errorsStock } = this.state;
+    const { errorsName, errorsPrice, errorsStock } = this.state;
     return (
       <div className="content-wrapper">
         <div>

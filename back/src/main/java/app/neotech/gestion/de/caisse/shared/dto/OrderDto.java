@@ -23,7 +23,8 @@ public class OrderDto implements Serializable{
 	private Boolean valide;
 	private ClientDto client;
 	private Set<ProductDto> products;
-	//private List<OrderDetailsDto> details;
+	private List<OrderDetailsDto> details;
+	private TableDto table;
 	
 	public long getId() {
 		return id;
@@ -62,14 +63,14 @@ public class OrderDto implements Serializable{
 	public void setClient(ClientDto client) {
 		this.client = client;
 	}
-/*
+
 	public List<OrderDetailsDto> getDetails() {
 		return details;
 	}
 	public void setDetails(List<OrderDetailsDto> details) {
 		this.details = details;
 	}
-*/
+
 
 	public Set<ProductDto> getProducts() {
 		return products;
@@ -77,9 +78,14 @@ public class OrderDto implements Serializable{
 	public void setProducts(Set<ProductDto> products) {
 		this.products = products;
 	}
+	public TableDto getTable() {
+		return table;
+	}
+	public void setTable(TableDto table) {
+		this.table = table;
+	}
 	
-	
-	
+
 	
 
 }

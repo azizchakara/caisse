@@ -38,21 +38,25 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public OrderDto createOrder(OrderDto order) {
 
-		/*
+	
 		for (int i=0; i < order.getDetails().size(); i++) {
 			OrderDetailsDto details = order.getDetails().get(i);
 			details.setOrder(order);
 			order.getDetails().set(i, details);
 		}
+	
 		ModelMapper modelMapper = new ModelMapper();
 		OrderEntity orderEntity = modelMapper.map(order, OrderEntity.class);
 		OrderEntity newOrder = orderRepository.save(orderEntity);
 		OrderDto orderDto = modelMapper.map(newOrder, OrderDto.class);
 		return orderDto;
-		*/
+		
+		/*
 		OrderEntity orderEntity = orderMapper.modelToEntity(order);
 		OrderEntity newOrder = orderRepository.save(orderEntity);
 		return orderMapper.entityToModel(newOrder);
+		*/
+		
 	}
 
 
@@ -98,7 +102,10 @@ public class OrderServiceImpl implements OrderService {
 	public  List<OrderDto> getOrdersByClientId(Long id) {
 		
 		List<OrderEntity> orders = orderRepository.findOrderByClientId(id);
-		List<OrderDto> orderDto = orderMapper.entitiesToModels(orders);
+		//List<OrderDto> orderDto = orderMapper.entitiesToModels(orders);
+		ModelMapper modelMapper = new ModelMapper();
+		Type listType = new TypeToken<List<OrderDto>>() {}.getType();
+		List<OrderDto> orderDto = modelMapper.map(orders, listType);
 		return orderDto;
 		
 	}
@@ -133,19 +140,20 @@ public class OrderServiceImpl implements OrderService {
 /*
 	@Override
 	public List<OrderDto> getOrders(int page, int limit) {
-		List<OrderDto> orderDto = new ArrayList<>();
+		List<OrderDto> ordersDto = new ArrayList<>();
 		Pageable pageableRequest = PageRequest.of(page, limit);
 		Page<OrderEntity> orderPage = orderRepository.findAll(pageableRequest);
 		List<OrderEntity> orders = orderPage.getContent();
 		for(OrderEntity orderEntity: orders) {
 			OrderDto order = new OrderDto();
 			BeanUtils.copyProperties(orderEntity, order);
-			orderDto.add(order);
+			ordersDto.add(order);
 		}
-		return orderDto;
+		return ordersDto;
 	}
 
 */
+	
 	@Override
 	public List<OrderDto> getOrders(int page, int limit) {
 		List<OrderEntity> orders = orderRepository.findAll();
@@ -154,6 +162,7 @@ public class OrderServiceImpl implements OrderService {
 		List<OrderDto> orderDto = modelMapper.map(orders, listType);
 		return orderDto;
 	}
+	
 
 
 }

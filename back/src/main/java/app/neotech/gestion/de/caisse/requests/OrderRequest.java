@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import app.neotech.gestion.de.caisse.shared.dto.ClientDto;
+import app.neotech.gestion.de.caisse.shared.dto.TableDto;
 
 public class OrderRequest {
 	
@@ -18,6 +19,8 @@ public class OrderRequest {
 	private ClientDto client;
 	
 	private List<OrderDetailsRequest> details;
+	
+	private TableDto table;
 	
 	public Date getCmdDate() {
 		return cmdDate;
@@ -54,6 +57,12 @@ public class OrderRequest {
 	}
 	public void setDetails(List<OrderDetailsRequest> details) {
 		this.details = details;
+	}
+	public TableDto getTable() {
+		return table;
+	}
+	public void setTable(TableDto table) {
+		this.table = table;
 	}
 
 	
