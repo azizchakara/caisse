@@ -38,6 +38,8 @@ public class ProductEntity implements Serializable{
 	@Column(nullable=false)
 	private String codeBar;
 	
+	@Column(nullable=false)
+	private byte image;
 	
 	@ManyToOne
 	@JoinColumn(name="category_id")

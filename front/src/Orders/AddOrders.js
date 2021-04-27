@@ -48,6 +48,7 @@ class AddOrders extends Component {
   onClick(e) {
     let categoryId = e.target.getAttribute("data-categoryId");
     let oldOrders = this.state.orders;
+    console.log(oldOrders);
     //this.props.getProductByCategory(e.target.getAttribute("data-categoryId"));
     $("div.column img").each(function () {
       if ($(this).attr("data-categoryId") === categoryId) {
@@ -59,6 +60,7 @@ class AddOrders extends Component {
         if (!oldOrders[productName]) {
           oldOrders[productName] = 0;
         }
+        console.log($(this));
       } else if ($(this).attr("data-categoryId") !== categoryId) {
         $(this).css("display", "none");
         $("span").css("display", "none");
