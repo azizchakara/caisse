@@ -12,7 +12,7 @@ class ProductItem extends Component {
     return (
       <tr className="even pointer">
         <td className="a-center ">{product.productName}</td>
-        <td className="a-center ">{product.quantity}</td>
+
         <td className="a-center ">{product.price}</td>
         <td className="a-center ">{product.stock}</td>
         <td className="a-center ">{product.codeBar}</td>

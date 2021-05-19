@@ -41,7 +41,7 @@ class Products extends Component {
                     <thead>
                       <tr>
                         <th>Product's Name</th>
-                        <th>Quantity</th>
+
                         <th>Price</th>
                         <th>Stock</th>
                         <th>CodeBar</th>

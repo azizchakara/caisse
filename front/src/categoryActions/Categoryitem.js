@@ -12,7 +12,7 @@ class Categoryitem extends Component {
     return (
       <tr className="even pointer">
         <td className="a-center ">{category.categoryName}</td>
-        <td className="a-center ">{category.logo}</td>
+
         <td>
           <Link to={`/updatecategory/${category.id}`}>Modify</Link> <br />
           <Link onClick={this.onDeleteClick.bind(this, category.id)}>

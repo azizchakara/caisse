@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import app.neotech.gestion.de.caisse.exceptions.ClientException;
 import app.neotech.gestion.de.caisse.exceptions.ErrorMessages;
+import app.neotech.gestion.de.caisse.responses.ResponseMessage;
+import app.neotech.gestion.de.caisse.services.FileStorageService;
 import app.neotech.gestion.de.caisse.services.ProductService;
 import app.neotech.gestion.de.caisse.shared.dto.ProductDto;
 
@@ -30,9 +33,11 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 	
+
+	
 	@PostMapping
 	public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
-		if(productDto.getProductName().isEmpty() || productDto.getCodeBar().isEmpty()) throw new ClientException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+		
 		ProductDto createProduct= productService.createProduct(productDto);
 		return new ResponseEntity<ProductDto>(createProduct,HttpStatus.CREATED);
 	}

@@ -1,18 +1,22 @@
 package app.neotech.gestion.de.caisse.services.impl;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.Base64;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import app.neotech.gestion.de.caisse.entities.ProductEntity;
 import app.neotech.gestion.de.caisse.mapper.ProductMapper;
 import app.neotech.gestion.de.caisse.repositories.ProductRepository;
 import app.neotech.gestion.de.caisse.services.ProductService;
 import app.neotech.gestion.de.caisse.shared.dto.ProductDto;
-
+import org.springframework.util.StringUtils;
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -89,5 +93,7 @@ public class ProductServiceImpl implements ProductService {
 
 		
 	}
+
+	
 
 }

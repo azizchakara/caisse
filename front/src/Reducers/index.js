@@ -9,6 +9,7 @@ import productReducer from "./productReducer";
 import productsByCategory from "./productReducer";
 import orderReducer from "./orderReducer";
 import tablesReducer from "./tablesReducer";
+import detailsReducer from "./detailsReducer";
 
 export default combineReducers({
   errors: errorReducer,
@@ -22,4 +23,5 @@ export default combineReducers({
   order: orderReducer,
   tables: tablesReducer,
   clients: clientReducer,
+  details: detailsReducer,
 });

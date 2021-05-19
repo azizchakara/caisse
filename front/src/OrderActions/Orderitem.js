@@ -12,7 +12,6 @@ class Orderitem extends Component {
         <td className="a-center ">{order.cmdDate}</td>
         <td className="a-center ">{order.cmdNum}</td>
         <td className="a-center ">{order.total}</td>
-        <td className="a-center ">{order.client.codeClient}</td>
       </tr>
     );
   }

@@ -59,11 +59,10 @@ class App extends Component {
             <Route path="/updateproduct/:id" component={UpdateProduct} />
             <Route path="/products" component={Products} />
             <Route path="/orders" component={Orders} />
-
             <Route path="/addtable" component={AddTable} />
             <Route path="/ordersummary" component={OrderSummary} />
-            <Route path="/addorder" component={AddOrders} />
-            <Route path="/border" component={Border} />
+            <Route path="/border" component={AddOrders} />
+            <Route path="/addorder" component={Border} />
             <Footer />
           </div>
         </Router>

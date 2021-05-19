@@ -17,7 +17,7 @@ public class OrderResponse {
 	private double total;
 	private Boolean valide;
 	private ClientDto client;
-	
+
 	
 	
 	public long getId() {
@@ -56,5 +56,8 @@ public class OrderResponse {
 	public void setClient(ClientDto client) {
 		this.client = client;
 	}
+
+
+	
 
 }

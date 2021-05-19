@@ -21,7 +21,9 @@ export const getBills = (page, limit) => async (dispatch) => {
   });
 };
 export const getBill = (id, history) => async (dispatch) => {
+  console.log("helooooooo", id);
   const res = await axios.get(`http://localhost:8080/bills/${id}`);
+  console.log("res", res);
   dispatch({
     type: GET_BILL,
     payload: res.data,

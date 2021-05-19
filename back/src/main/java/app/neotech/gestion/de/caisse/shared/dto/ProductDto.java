@@ -3,6 +3,9 @@ package app.neotech.gestion.de.caisse.shared.dto;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Lob;
+
 public class ProductDto implements Serializable{
 
 	/**
@@ -18,6 +21,9 @@ public class ProductDto implements Serializable{
 	private String codeBar;
 	private CategoryDto category;
 	private Set<IngredientDto> ingredients;
+	@Lob
+	@Column(columnDefinition = "MEDIUMBLOB")
+	private String image;
 	
 	
 	public long getId() {
@@ -68,6 +74,12 @@ public class ProductDto implements Serializable{
 	}
 	public void setIngredients(Set<IngredientDto> ingredients) {
 		this.ingredients = ingredients;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 	

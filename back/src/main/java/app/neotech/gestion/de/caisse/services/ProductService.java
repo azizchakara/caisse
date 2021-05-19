@@ -2,6 +2,9 @@ package app.neotech.gestion.de.caisse.services;
 
 
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import app.neotech.gestion.de.caisse.shared.dto.ProductDto;
 
 public interface ProductService {
@@ -12,5 +15,7 @@ public interface ProductService {
 	void deleteProduct(long id);
 	List<ProductDto> getProductsByCategoryId(Long id);
 	List<ProductDto> getProducts(int page, int limit);
+
+	
 
 }

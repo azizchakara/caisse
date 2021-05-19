@@ -1,6 +1,7 @@
 package app.neotech.gestion.de.caisse.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity(name="tables")
@@ -26,11 +28,13 @@ public class TableEntity implements Serializable{
 	@Column(nullable=false)
 	private double tableplace;
 	
-	
+	/*
 	@OneToOne(mappedBy = "table",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "order_id")
 	private OrderEntity order;
-	
+	*/
+	@OneToMany(mappedBy = "table", cascade = CascadeType.ALL)
+	private List<OrderEntity> order; 
 	
 	public long getId() {
 		return id;
@@ -51,13 +55,13 @@ public class TableEntity implements Serializable{
 	public void setTableplace(double tableplace) {
 		this.tableplace = tableplace;
 	}
-	public OrderEntity getOrder() {
+	public List<OrderEntity> getOrder() {
 		return order;
 	}
-	public void setOrder(OrderEntity order) {
+	public void setOrder(List<OrderEntity> order) {
 		this.order = order;
 	}
-
+	
 	
 	
 }

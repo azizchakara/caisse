@@ -43,7 +43,7 @@ class categories extends Component {
                       <thead>
                         <tr>
                           <th>Category Name</th>
-                          <th> Logo</th>
+
                           <th>Actions</th>
                         </tr>
                       </thead>

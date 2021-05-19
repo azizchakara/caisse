@@ -10,12 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-
-@Entity(name="products")
-public class ProductEntity implements Serializable{
+@Entity(name = "products")
+public class ProductEntity implements Serializable {
 
 	/**
 	 * 
@@ -25,37 +25,40 @@ public class ProductEntity implements Serializable{
 	@Id
 	@GeneratedValue
 	private long id;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private String productName;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private double price;
-	
-	@Column(nullable=false)
-	private double stock;
-	
-	@Column(nullable=false)
-	private String codeBar;
-	
-	@Column(nullable=false)
-	private byte image;
-	
-	@ManyToOne
-	@JoinColumn(name="category_id")
-	private CategoryEntity category;
-	
-    @ManyToMany
-    @JoinTable(name="ingredients_product", joinColumns= {@JoinColumn(name="ingredient_id")}, inverseJoinColumns = {@JoinColumn(name="products_id")})
-    private Set<IngredientEntity> ingredients = new HashSet<>();
 
-    @ManyToMany(mappedBy="products")
-    private Set<OrderEntity> orders = new HashSet<>();
-    
-    public ProductEntity() {
+	@Column(nullable = false)
+	private double stock;
+
+	@Column(nullable = false)
+	private String codeBar;
+
+	@Lob
+	@Column(columnDefinition = "MEDIUMBLOB")
+	private String image;
+
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	private CategoryEntity category;
+
+	@ManyToMany
+	@JoinTable(name = "ingredients_product", joinColumns = {
+			@JoinColumn(name = "ingredient_id") }, inverseJoinColumns = { @JoinColumn(name = "products_id") })
+	private Set<IngredientEntity> ingredients = new HashSet<>();
+
+	@ManyToMany(mappedBy = "products")
+	private Set<OrderEntity> orders = new HashSet<>();
+
+	public ProductEntity() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 
 	public ProductEntity(long id, String productName, double price, double stock, String codeBar,
 			CategoryEntity category, Set<IngredientEntity> ingredients) {
@@ -133,6 +136,16 @@ public class ProductEntity implements Serializable{
 		this.orders = orders;
 	}
 
-	
-	
+
+	public String getImage() {
+		return image;
+	}
+
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+
+
 }

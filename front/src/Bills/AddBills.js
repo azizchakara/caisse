@@ -13,20 +13,23 @@ class AddBills extends Component {
     super();
     this.state = {
       billDate: "",
-      billNumber: "",
-      total: "",
+      billNumber: "44444",
       type: "",
+      order: "",
       errorsbillDate: "",
       errorsbillNumber: "",
-      errorstotal: "",
-      errorstype: "",
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
   onChange(e) {
+    console.log("ggeg");
     this.setState({ [e.target.name]: e.target.value });
   }
+  onSelectOrder = (e) => {
+    console.log("what");
+    this.setState({ order: { id: e.target.value } });
+  };
   onSubmit(e) {
     e.preventDefault();
     const { billDate, billNumber, total, type } = this.state;
@@ -40,55 +43,21 @@ class AddBills extends Component {
         errorsbillNumber: " bill's number  field is Required !",
       });
     }
-    if (total === "") {
-      this.setState({
-        errorstotal: " total field is Required !",
-      });
-    }
-    if (type === "") {
-      this.setState({
-        errorstype: " type field is Required !",
-      });
-    }
     const newBill = {
       billDate: this.state.billDate,
       billNumber: this.state.billNumber,
-      total: this.state.total,
       type: this.state.type,
+      order: this.state.order,
     };
-    console.log(newBill);
+    console.log(this.state);
     this.props.createBill(newBill, this.props.history);
   }
   render() {
-    const {
-      errorsbillDate,
-      errorsbillNumber,
-      errorstotal,
-      errorstype,
-    } = this.state;
+    const { errorsbillDate, errorstype } = this.state;
     const { orders } = this.props.orders;
-    console.log(orders);
     return (
       <div className="content-wrapper">
         <div>
-          <meta charSet="utf-8" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
-          <link
-            rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-            integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
-            crossOrigin="anonymous"
-          />
-          <link rel="stylesheet" href="App.css" />
-          <link
-            rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
-            integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-            crossOrigin="anonymous"
-          />
           <div className="register">
             <div className="container">
               <div className="row">
@@ -105,7 +74,6 @@ class AddBills extends Component {
                         })}
                         placeholder="Category Name"
                         name="billDate"
-                        value={this.state.billDate}
                         onChange={this.onChange}
                       />
                       <p>{errorsbillDate}</p>
@@ -113,7 +81,6 @@ class AddBills extends Component {
                     <div className="form-group">
                       <select
                         onChange={this.onChange}
-                        value={this.state.type}
                         name="type"
                         className={classnames("form-control form-control-lg", {
                           "is-invalid": errorstype,
@@ -126,7 +93,14 @@ class AddBills extends Component {
                       <p>{errorstype}</p>
                     </div>
                     <div className="form-group">
-                      <select className="form-control form-control-lg">
+                      <select
+                        className="form-control form-control-lg"
+                        onChange={this.onSelectOrder}
+                        name="order"
+                      >
+                        <option key="0" selected>
+                          Select an order
+                        </option>
                         {orders.map((order) => {
                           return <option key={order.id}>{order.cmdNum}</option>;
                         })}
