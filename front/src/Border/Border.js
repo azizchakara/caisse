@@ -8,19 +8,22 @@ import { createOrder } from "../OrderActions/OrderActions";
 import $ from "jquery";
 import "./Border.css";
 import OrderSummary from "../Orders/OrderSummary";
+
 class Border extends Component {
   componentDidMount() {
     this.props.getCategories();
     this.props.getProducts();
     this.props.getClients();
     this.props.getTables();
+    //this.props.getOrdersCount()
   }
   constructor() {
     super();
     this.state = {
       cmdDate: "2021-01-30",
       cmdNum: "1200",
-      total: "22789",
+      //cmdNum: props.countOrders
+      total: 0,
       valide: false,
       client: {},
       details: [],
@@ -86,6 +89,12 @@ class Border extends Component {
     let productId = e.target.getAttribute("data-productId");
     let productPrice = e.target.getAttribute("data-productPrice");
     let oldProducts = this.state.qteDetails;
+    console.log("oldProducts", oldProducts);
+
+    /*oldProducts.map((product) => {
+      console.log("mapper", product);
+    });*/
+
     const oldOrders = this.state.orders;
     const oldCount = oldOrders[productName];
     oldOrders[productName] = oldCount + 1;
@@ -98,12 +107,12 @@ class Border extends Component {
     this.setState({
       qteDetails: [...oldProducts, productArray],
     });
-  };
-  onSelectLi = (e) => {
-    console.log("hello");
+
+    console.log("state", this.state);
   };
   onClickButton = (e) => {
-    let orderName = $("ul li.orderline:last-child")
+    let orderName = $("ul.orderlines")
+      .find("li.orderline[selected=selected]")
       .find("span.product-name")
       .attr("order-name");
     $("ul li.orderline").each(function () {
@@ -118,36 +127,43 @@ class Border extends Component {
   onApplyDiscount = (e) => {
     console.log("discount", e.target.value);
     let discountValue = $("#discount").val();
-    let orderName = $("ul li.orderline:last-child")
+    let orderName = $("ul.orderlines")
+      .find("li.orderline[selected=selected]")
       .find("span.product-name")
       .attr("order-name");
+    $("ul.orderlines")
+      .find("li.orderline[selected=selected]")
+      .append(
+        "<p id='discount-value'>With a <b>" +
+          discountValue +
+          "% </b>Discount</p>"
+      );
+    console.log("orderline selected", orderName);
     const oldDetails = this.state.details;
-    console.log("details[orderName]", oldDetails[orderName]);
+    /*console.log("details[orderName]", oldDetails[orderName]);
     console.log("discount ", discountValue / 100);
     console.log(
       "discountValue ",
       oldDetails[orderName] * (discountValue / 100)
-    );
-    //let priceAfterDiscount = oldDetails[orderName] * (discountValue / 100);
+    );*/
     oldDetails[orderName] = oldDetails[orderName] * (discountValue / 100);
     this.setState({ details: oldDetails });
   };
   onSubmit(e) {
     e.preventDefault();
-    //console.log(this.state.orders);
+    let totalValue = $("#total").text();
     const newOrder = {
       //bill: this.state.bill,
       client: this.state.client,
       cmdDate: this.state.cmdDate,
       cmdNum: this.state.cmdNum,
-      //qteDetails: this.state.qteDetails,
       details: this.state.qteDetails,
-      total: this.state.total,
+      total: totalValue,
       valide: this.state.valide,
       table: this.state.table,
     };
     console.log("details", newOrder);
-    this.props.createOrder(newOrder, this.props.history);
+    //this.props.createOrder(newOrder, this.props.history);
     //this.props.history("/addbills");
   }
   onSelectCustomer = (e) => {
@@ -183,7 +199,7 @@ class Border extends Component {
     const { tables } = this.props.tables;
     return (
       <div className="content-wrapper">
-        <div className="container">
+        <div className="">
           <form onSubmit={this.onSubmit}>
             <div className="row">
               <div className="col-4">
@@ -207,7 +223,6 @@ class Border extends Component {
                       <OrderSummary
                         orders={this.state.orders}
                         details={this.state.details}
-                        clicked={this.onSelectLi}
                         //discount={this.state.discount}
                       />
                     </div>
@@ -256,10 +271,18 @@ class Border extends Component {
                   <div className="first-row">
                     <input
                       type="submit"
-                      className="col-12"
+                      className="col-6"
                       //onClick={this.clearScreen}
                       id="submit"
                       value="Go To Payment"
+                    />
+                    <input
+                      type="button"
+                      className="col-6"
+                      id="note"
+                      value="Note"
+                      data-toggle="modal"
+                      data-target="#noteModal"
                     />
                   </div>
                   <div className="second-row">
@@ -591,7 +614,7 @@ const mapStateToProps = (state) => ({
   products: state.product,
   clients: state.clients,
   tables: state.tables,
-  //productsCategory: state.productCategory,
+  //countOrders: state.count
 });
 
 export default connect(mapStateToProps, {
@@ -600,4 +623,5 @@ export default connect(mapStateToProps, {
   getProducts,
   getClients,
   getTables,
+  //getOrdersCount()
 })(Border);

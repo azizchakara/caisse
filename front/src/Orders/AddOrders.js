@@ -75,11 +75,12 @@ class AddOrders extends Component {
     });
   }
   addProductsHandler = (e) => {
+    console.log("fuck ");
     let productName = e.target.getAttribute("data-productName");
     let productId = e.target.getAttribute("data-productId");
     let productPrice = e.target.getAttribute("data-productPrice");
     let oldProducts = this.state.details;
-
+    console.log("oldProducts", oldProducts);
     //add checker for duplicate entries
     /*const mapped = oldProducts.map((obj, index) => obj.id);
     const filtered = mapped.filter(
@@ -117,7 +118,7 @@ class AddOrders extends Component {
       table: this.state.table,
     };
     console.log(newOrder);
-    this.props.createOrder(newOrder, this.props.history);
+    //this.props.createOrder(newOrder, this.props.history);
   }
   onSelectTable = (e) => {
     e.preventDefault();

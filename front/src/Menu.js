@@ -9,7 +9,7 @@ export default class Menu extends Component {
           <div className="sidebar">
             {/* Sidebar Menu */}
             <nav className="mt-2">
-              <li className="nav-item has-treeview">
+              <li className="nav nav-pills">
                 <Link to="clients" className="nav-link">
                   <p>Clients</p>
                 </Link>

@@ -17,4 +17,5 @@ public interface OrderService {
 	Set<OrderDto> gerOrdersBetweenDates(Date start, Date end);
 	List<OrderDto> getOrdersByClientIdAndBetweenDate(Long id,Date start, Date end);
 	List<OrderDto> getOrders(int page, int limit);
+	
 }

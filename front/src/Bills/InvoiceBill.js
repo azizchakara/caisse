@@ -20,34 +20,9 @@ class InvoiceBill extends Component {
     console.log("bill", all);
     return (
       <div className="content-wrapper">
-        <div className="page-header text-blue-d2">
-          <h1 className="page-title text-secondary-d1">
-            Invoice
-            <small className="page-info">
-              <i className="fa fa-angle-double-right text-80"></i>
-              ID:
-            </small>
-          </h1>
-
-          <div className="page-tools">
-            <div className="action-buttons">
-              <a
-                className="btn bg-white btn-light mx-1px text-95"
-                href="#"
-                data-title="Print"
-              >
-                <i className="mr-1 fa fa-print text-primary-m1 text-120 w-2"></i>
-                Print
-              </a>
-            </div>
-          </div>
-        </div>
-
         <div className="container px-0">
           <div className="row mt-4">
             <div className="col-12 col-lg-10 offset-lg-1">
-              <hr className="row brc-default-l1 mx-n1 mb-4" />
-
               <div className="row">
                 <div className="col-sm-6">
                   <div>
@@ -55,16 +30,8 @@ class InvoiceBill extends Component {
                       To:
                     </span>
                     <span className="text-600 text-110 text-blue align-middle">
-                      Alex Doe
+                      Aziz chakara
                     </span>
-                  </div>
-                  <div className="text-grey-m2">
-                    <div className="my-1">Street, City</div>
-                    <div className="my-1">State, Country</div>
-                    <div className="my-1">
-                      <i className="fa fa-phone fa-flip-horizontal text-secondary"></i>{" "}
-                      <b className="text-600">111-111-111</b>
-                    </div>
                   </div>
                 </div>
 
@@ -74,22 +41,19 @@ class InvoiceBill extends Component {
                     <div className="mt-1 mb-2 text-secondary-m1 text-600 text-125">
                       Invoice
                     </div>
-
                     <div className="my-2">
                       <i className="fa fa-circle text-blue-m2 text-xs mr-1"></i>{" "}
-                      <span className="text-600 text-90">ID:</span> #
+                      <span className="text-600 text-90">ID:</span>
                     </div>
-
                     <div className="my-2">
                       <i className="fa fa-circle text-blue-m2 text-xs mr-1"></i>{" "}
                       <span className="text-600 text-90">Issue Date:</span>{" "}
                     </div>
-
                     <div className="my-2">
                       <i className="fa fa-circle text-blue-m2 text-xs mr-1"></i>{" "}
                       <span className="text-600 text-90">Status:</span>{" "}
                       <span className="badge badge-warning badge-pill px-25">
-                        Unpaid
+                        Paid
                       </span>
                     </div>
                   </div>
@@ -99,7 +63,7 @@ class InvoiceBill extends Component {
               <div className="mt-4">
                 <div className="row text-600 text-white bgc-default-tp1 py-25">
                   <div className="d-none d-sm-block col-1">#</div>
-                  <div className="col-9 col-sm-5">Description</div>
+                  <div className="col-9 col-sm-5">Product</div>
                   <div className="d-none d-sm-block col-4 col-sm-2">Qty</div>
                   <div className="d-none d-sm-block col-sm-2">Unit Price</div>
                   <div className="col-2">Amount</div>
@@ -175,19 +139,11 @@ class InvoiceBill extends Component {
                     </div>
                   </div>
                 </div>
-
                 <hr />
-
                 <div>
                   <span className="text-secondary-d1 text-105">
-                    Thank you for your business
+                    Merci Pour votre visite
                   </span>
-                  <a
-                    href="#"
-                    className="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0"
-                  >
-                    Pay Now
-                  </a>
                 </div>
               </div>
             </div>
