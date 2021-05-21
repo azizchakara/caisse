@@ -32,6 +32,7 @@ class Border extends Component {
       selected: false,
       showCustomer: false,
       showTable: false,
+      showNote: false,
       discount: null,
       qteDetails: [],
     };
@@ -181,6 +182,10 @@ class Border extends Component {
     e.preventDefault();
     this.setState({ showTable: true });
   };
+  onAddNote = (e) => {
+    e.preventDefault();
+    this.setState({ showNote: true });
+  };
   onSetTable = (table) => {
     this.setState({ table: { id: table.id } });
     $(".tables-table tbody").each(function () {
@@ -279,8 +284,9 @@ class Border extends Component {
                     <input
                       type="button"
                       className="col-6"
+                      onClick={this.onAddNote}
+                      value="Add Note"
                       id="note"
-                      value="Note"
                       data-toggle="modal"
                       data-target="#noteModal"
                     />
@@ -584,6 +590,50 @@ class Border extends Component {
                                   </tbody>
                                 ))}
                               </table>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {this.state.showNote && (
+                  <div
+                    class="modal fade"
+                    id="noteModal"
+                    tabindex="-1"
+                    role="dialog"
+                    aria-labelledby="noteModalLabel"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">
+                            Add Note
+                          </h5>
+                          <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                          >
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div className="row">
+                            <div className="col-12">
+                              <textarea></textarea>
                             </div>
                           </div>
                         </div>

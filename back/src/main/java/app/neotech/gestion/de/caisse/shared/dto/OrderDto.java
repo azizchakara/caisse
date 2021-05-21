@@ -20,6 +20,7 @@ public class OrderDto implements Serializable{
 	private Date cmdDate;
 	private long cmdNum;
 	private double total;
+	private String note;
 	private Boolean valide;
 	private ClientDto client;
 	private Set<ProductDto> products;
@@ -83,6 +84,12 @@ public class OrderDto implements Serializable{
 	}
 	public void setTable(TableDto table) {
 		this.table = table;
+	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
 	}
 	
 

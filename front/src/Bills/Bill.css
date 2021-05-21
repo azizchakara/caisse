@@ -1,0 +1,161 @@
+.screen-content {
+  position: relative;
+  margin: 0px auto;
+  max-width: 1024px;
+  text-align: left;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.main-content {
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  overflow-y: auto;
+}
+.left-content {
+  max-width: 34%;
+}
+.left-content {
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-right: dashed 1px rgb(215, 215, 215);
+  flex-grow: 1;
+  min-width: 200px;
+}
+.right-content {
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.paymentlines-container {
+  padding: 16px;
+  padding-top: 0;
+  border-bottom: dashed 1px gainsboro;
+  min-height: 154px;
+}
+.paymentlines-empty .message {
+  text-align: center;
+}
+.paymentlines-empty .total {
+  text-align: center;
+  padding: 24px 0px 18px;
+  font-size: 64px;
+  color: #43996e;
+  text-shadow: 0px 2px white, 0px 2px 2px rgb(0 0 0 / 27%);
+}
+.paymentlines-empty .message {
+  text-align: center;
+}
+.paymentlines {
+  border-spacing: 0px 10px;
+  border-collapse: inherit;
+  margin: 16px;
+}
+.paymentmethods {
+  margin: 16px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.paymentmethods .button:first-child {
+  border-top-width: 1px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.paymentmethods .button {
+  background: #e2e2e2;
+  line-height: 74px;
+  font-size: 16px;
+  border: solid 1px rgb(202, 202, 202);
+  border-top-width: 0px;
+  cursor: pointer;
+}
+.paymentmethod {
+  display: flex;
+  padding-left: 30px;
+  padding-right: 30px;
+  flex-grow: 1;
+  flex-basis: 100%;
+}
+.paymentmethod .payment-name {
+  flex-grow: 1;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.paymentmethods .button {
+  background: #e2e2e2;
+  line-height: 74px;
+  font-size: 16px;
+  border: solid 1px rgb(202, 202, 202);
+  border-top-width: 0px;
+  cursor: pointer;
+}
+.paymentmethod {
+  display: flex;
+  padding-left: 30px;
+  padding-right: 30px;
+  flex-grow: 1;
+  flex-basis: 100%;
+}
+.payment-buttons-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.payment-numpad .numpad {
+  border-radius: 4px;
+  border-top: 1px solid;
+  border-left: 1px solid;
+  border-color: #cacaca;
+  width: 296px;
+  height: 100%;
+  margin: auto;
+}
+.payment-numpad .numpad button:first-child {
+  border-top-left-radius: 4px;
+}
+.payment-numpad .numpad button {
+  width: 74px;
+  height: 74px;
+}
+.numpad button {
+  float: left;
+  height: 54px;
+  width: 54px;
+  font-weight: bold;
+  vertical-align: middle;
+  color: #555555;
+  border-radius: 0;
+  border: none;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+  border-color: #bfbfbf;
+  transition: all 150ms linear;
+}
+.payment-numpad .numpad button {
+  width: 74px;
+  height: 74px;
+}
+.numpad button:nth-child(4) {
+  border-top-right-radius: 4px;
+}
+.numpad button {
+  float: left;
+  height: 54px;
+  width: 54px;
+  font-weight: bold;
+  vertical-align: middle;
+  color: #555555;
+  border-radius: 0;
+  border: none;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+  border-color: #bfbfbf;
+  transition: all 150ms linear;
+}
+.mode-button {
+  font-size: 14px;
+}

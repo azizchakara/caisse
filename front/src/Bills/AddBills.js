@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { createBill } from "../BillsActions/BillsActions";
 import classnames from "classnames";
 import { getOrders } from "../OrderActions/OrderActions";
+import "./Bill.css";
 
 class AddBills extends Component {
   componentDidMount() {
@@ -65,6 +66,79 @@ class AddBills extends Component {
                   <br />
                   <br />
                   <p className="lead text-center">Add Bill</p>
+                  <div className="screen-content">
+                    <div class="main-content">
+                      <div className="left-content">
+                        <div class="paymentmethods-container">
+                          <div class="paymentlines"></div>
+                          <div class="paymentmethods">
+                            <div class="button paymentmethod">
+                              <div class="payment-name">Cash</div>
+                            </div>
+                            <div class="button paymentmethod">
+                              <div class="payment-name">Bank</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="right-content">
+                        <section class="paymentlines-container">
+                          <div class="paymentlines-empty">
+                            <div class="total">£ 18.90</div>
+                            <div class="message">
+                              {" "}
+                              Please select a payment method.{" "}
+                            </div>
+                          </div>
+                        </section>
+                        <div className="payment-buttons-container">
+                          <section className="payment-numpad">
+                            <div className="numpad">
+                              <button className="input-button number-char">
+                                1
+                              </button>
+                              <button className="input-button number-char">
+                                2
+                              </button>
+                              <button className="input-button number-char">
+                                3
+                              </button>
+                              <br />
+                              <button className="input-button number-char">
+                                4
+                              </button>
+                              <button className="input-button number-char">
+                                5
+                              </button>
+                              <button className="input-button number-char">
+                                6
+                              </button>
+                              <br />
+                              <button className="input-button number-char">
+                                7
+                              </button>
+                              <button className="input-button number-char">
+                                8
+                              </button>
+                              <button className="input-button number-char">
+                                9
+                              </button>
+                              <br />
+                              <button className="input-button number-char">
+                                +/-
+                              </button>
+                              <button className="input-button number-char">
+                                0
+                              </button>
+                              <button className="input-button number-char">
+                                .
+                              </button>
+                            </div>
+                          </section>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                       <input

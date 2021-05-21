@@ -17,7 +17,7 @@ public class OrderRequest {
 	private double total;
 	private Boolean valide;
 	private ClientDto client;
-	
+	private String note;
 	private List<OrderDetailsRequest> details;
 	
 	private TableDto table;
@@ -63,6 +63,12 @@ public class OrderRequest {
 	}
 	public void setTable(TableDto table) {
 		this.table = table;
+	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	

@@ -19,7 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.springframework.format.annotation.DateTimeFormat;
 
-
 @Entity(name = "orders")
 public class OrderEntity implements Serializable {
 
@@ -31,9 +30,9 @@ public class OrderEntity implements Serializable {
 	@Id
 	@GeneratedValue
 	private long id;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Date cmdDate;
 
 	@Column(nullable = false)
@@ -45,7 +44,9 @@ public class OrderEntity implements Serializable {
 	@Column(nullable = false)
 	private Boolean valide;
 
-	@OneToOne(mappedBy = "order",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private String note;
+
+	@OneToOne(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "bill_id")
 	private BillEntity bill;
 
@@ -53,21 +54,18 @@ public class OrderEntity implements Serializable {
 	@JoinColumn(name = "client_id")
 	private ClientEntity client;
 
-
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-	private List<OrderDetailsEntity> details; 
-
+	private List<OrderDetailsEntity> details;
 
 	@ManyToMany
 	@JoinTable(name = "products_orders", joinColumns = { @JoinColumn(name = "orders_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "products_id") })
 	private Set<ProductEntity> products = new HashSet<>();
-	
-	
+
 	@OneToOne
 	@JoinColumn(name = "table_id")
-	 private TableEntity table;
-	
+	private TableEntity table;
+
 	public long getId() {
 		return id;
 	}
@@ -148,6 +146,13 @@ public class OrderEntity implements Serializable {
 		this.table = table;
 	}
 
-	
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
 	
 }
