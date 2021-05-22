@@ -143,3 +143,102 @@ li {
   font-weight: normal;
   text-align: center;
 }
+/*Bill CSS*/
+.pos-receipt-container {
+  flex: 0 1 400px;
+  overflow: auto;
+}
+.pos-receipt-container > div {
+  text-align: left;
+  width: 300px;
+  background-color: white;
+  margin: 20px;
+  padding: 15px;
+  font-size: 16px;
+  padding-bottom: 30px;
+  display: inline-block;
+  border: solid 1px rgb(220, 220, 220);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.pos-receipt .pos-receipt-contact {
+  text-align: center;
+  font-size: 75%;
+}
+.pos-receipt .pos-receipt-left-padding {
+  padding-left: 2em;
+}
+.pos-receipt .pos-receipt-right-align {
+  float: right;
+}
+.pos-receipt .pos-receipt-left-padding {
+  padding-left: 2em;
+}
+.pos-receipt .pos-receipt-amount {
+  font-size: 125%;
+  padding-left: 6em;
+}
+.pos-receipt .pos-receipt-order-data {
+  text-align: center;
+  font-size: 75%;
+}
+.default-view {
+  display: flex;
+  overflow: hidden;
+  margin-left: 40px;
+}
+/*Print receipt CSS*/
+.default-view .actions {
+  flex: 1;
+  margin: 0 1.5rem;
+}
+.default-view .actions h1 {
+  font-size: 1.5rem;
+  margin-bottom: 4rem;
+}
+.default-view .actions .buttons .button {
+  flex: 1;
+  border: solid 1px rgb(209, 209, 209);
+  padding: 1rem;
+  text-align: center;
+  border-radius: 3px;
+  cursor: pointer;
+  background: rgb(230, 230, 230);
+}
+.default-view .actions .send-email {
+  display: flex;
+}
+.default-view .actions .send-email .email-icon {
+  padding: 1rem;
+  border: solid 1px rgb(209, 209, 209);
+  border-right: none;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.default-view .actions .send-email .input-email {
+  display: flex;
+  flex: 1;
+  background: white;
+  border: solid 1px rgb(209, 209, 209);
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+.default-view .actions .send-email input {
+  flex: 1;
+  padding-left: 1rem;
+  border: none;
+  color: #555555;
+}
+.default-view .actions .send-email button.send.highlight {
+  color: white;
+  background-color: #6ec89b;
+}
+.default-view .actions .send-email button.send {
+  padding: 1rem 40px;
+  margin: 2px;
+  border: none;
+  background: rgb(230, 230, 230);
+}
+.default-view .actions * {
+  font-size: 1rem;
+}

@@ -55,6 +55,7 @@ class App extends Component {
             <Route path="/addbills" component={AddBills} />
             <Route path="/bills" component={Bills} />
             <Route path="/bill/:id" component={InvoiceBill} />
+            <Route path="/printbill" component={InvoiceBill} />
             <Route path="/updatebill/:id" component={UpdateBills} />
             <Route path="/updateproduct/:id" component={UpdateProduct} />
             <Route path="/products" component={Products} />

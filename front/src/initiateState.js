@@ -1,0 +1,31 @@
+const initiateState = {
+  cmdDate: "2021-01-30",
+  cmdNum: "1200",
+  //cmdNum: props.countOrders
+  total: 0,
+  valide: false,
+  client: {},
+  details: [],
+  orders: {},
+  table: {},
+  selected: false,
+  showCustomer: false,
+  showTable: false,
+  showNote: false,
+  discount: null,
+  qteDetails: [],
+  note: "",
+  showAddOrder: true,
+  showBill: false,
+  showChange: false,
+  showPriceTag: false,
+  change: 0,
+  remaining: 0,
+  paymentLines: false,
+  paymentLineSelected: "",
+  givenMoney: 0,
+  subtractValue: "",
+  printBill: false,
+};
+
+export default initiateState;

@@ -19,9 +19,11 @@ class AddBills extends Component {
       order: "",
       errorsbillDate: "",
       errorsbillNumber: "",
+      change: false,
+      priceTag: false,
     };
     this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    //this.onSubmit = this.onSubmit.bind(this);
   }
   onChange(e) {
     console.log("ggeg");
@@ -31,7 +33,10 @@ class AddBills extends Component {
     console.log("what");
     this.setState({ order: { id: e.target.value } });
   };
-  onSubmit(e) {
+  onBack = () => {
+    this.props.history.push("/addorder");
+  };
+  /*onSubmit(e) {
     e.preventDefault();
     const { billDate, billNumber, total, type } = this.state;
     if (billDate === "") {
@@ -52,10 +57,11 @@ class AddBills extends Component {
     };
     console.log(this.state);
     this.props.createBill(newBill, this.props.history);
-  }
+  }*/
   render() {
     const { errorsbillDate, errorstype } = this.state;
     const { orders } = this.props.orders;
+
     return (
       <div className="content-wrapper">
         <div>
@@ -64,9 +70,20 @@ class AddBills extends Component {
               <div className="row">
                 <div className="col-md-8 m-auto">
                   <br />
-                  <br />
-                  <p className="lead text-center">Add Bill</p>
                   <div className="screen-content">
+                    <div class="top-content">
+                      <div class="button back" onClick={this.onBack}>
+                        <i class="fa fa-angle-double-left fa-fw"></i>
+                        <span class="back_text">Back</span>
+                      </div>
+                      <div class="top-content-center">
+                        <h1>Payment</h1>
+                      </div>
+                      <div class="button next">
+                        <span class="next_text">Validate</span>
+                        <i class="fa fa-angle-double-right fa-fw"></i>
+                      </div>
+                    </div>
                     <div class="main-content">
                       <div className="left-content">
                         <div class="paymentmethods-container">
@@ -83,13 +100,35 @@ class AddBills extends Component {
                       </div>
                       <div className="right-content">
                         <section class="paymentlines-container">
-                          <div class="paymentlines-empty">
-                            <div class="total">£ 18.90</div>
-                            <div class="message">
-                              {" "}
-                              Please select a payment method.{" "}
+                          {this.state.change && (
+                            <div class="payment-status-container">
+                              <div>
+                                <div class="payment-status-remaining">
+                                  <span class="label">Remaining</span>
+                                  <span class="amount">£ 0.00</span>
+                                </div>
+                                <div class="payment-status-due">
+                                  <span class="label">Total Due</span>
+                                  <span>£ 21.22</span>
+                                </div>
+                              </div>
+                              <div>
+                                <div class="payment-status-change">
+                                  <span class="label">Change</span>
+                                  <span class="amount highlight">£ 10.78</span>
+                                </div>
+                              </div>
                             </div>
-                          </div>
+                          )}
+                          {!this.state.priceTag && (
+                            <div class="paymentlines-empty">
+                              <div class="total">£ 27.95</div>
+                              <div class="message">
+                                {" "}
+                                Please select a payment method.{" "}
+                              </div>
+                            </div>
+                          )}
                         </section>
                         <div className="payment-buttons-container">
                           <section className="payment-numpad">
@@ -139,54 +178,6 @@ class AddBills extends Component {
                       </div>
                     </div>
                   </div>
-                  <form onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                      <input
-                        type="date"
-                        className={classnames("form-control form-control-lg", {
-                          "is-invalid": errorsbillDate,
-                        })}
-                        placeholder="Category Name"
-                        name="billDate"
-                        onChange={this.onChange}
-                      />
-                      <p>{errorsbillDate}</p>
-                    </div>
-                    <div className="form-group">
-                      <select
-                        onChange={this.onChange}
-                        name="type"
-                        className={classnames("form-control form-control-lg", {
-                          "is-invalid": errorstype,
-                        })}
-                      >
-                        <option selected>Payment Type</option>
-                        <option>cheque</option>
-                        <option>cash</option>
-                      </select>
-                      <p>{errorstype}</p>
-                    </div>
-                    <div className="form-group">
-                      <select
-                        className="form-control form-control-lg"
-                        onChange={this.onSelectOrder}
-                        name="order"
-                      >
-                        <option key="0" selected>
-                          Select an order
-                        </option>
-                        {orders.map((order) => {
-                          return <option key={order.id}>{order.cmdNum}</option>;
-                        })}
-                      </select>
-                    </div>
-
-                    <input
-                      type="submit"
-                      className="btn btn-info btn-block mt-4"
-                      value="Confirm"
-                    />
-                  </form>
                 </div>
               </div>
             </div>

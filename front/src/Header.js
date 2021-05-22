@@ -10,14 +10,7 @@ export default class Header extends Component {
           style={{ height: "30px" }}
         >
           <ul className="navbar-nav">
-            <li className="nav-item">
-              <a className="nav-link" data-widget="pushmenu" href="#">
-                <i className="fas fa-bars" />
-              </a>
-            </li>
-            <Link to="dashboard" className="nav-link">
-              Home
-            </Link>
+            <li className="nav-item"></li>
           </ul>
         </nav>
       </div>

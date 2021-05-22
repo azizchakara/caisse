@@ -8,6 +8,9 @@ import { createOrder } from "../OrderActions/OrderActions";
 import $ from "jquery";
 import "./Border.css";
 import OrderSummary from "../Orders/OrderSummary";
+import { render } from "react-dom";
+import initiateState from "../initiateState";
+import backspace from "./backspace.png";
 
 class Border extends Component {
   componentDidMount() {
@@ -19,7 +22,8 @@ class Border extends Component {
   }
   constructor() {
     super();
-    this.state = {
+    this.state = initiateState;
+    /*this.state = {
       cmdDate: "2021-01-30",
       cmdNum: "1200",
       //cmdNum: props.countOrders
@@ -35,7 +39,8 @@ class Border extends Component {
       showNote: false,
       discount: null,
       qteDetails: [],
-    };
+      note: "",
+    };*/
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -150,22 +155,122 @@ class Border extends Component {
     oldDetails[orderName] = oldDetails[orderName] * (discountValue / 100);
     this.setState({ details: oldDetails });
   };
+  onBack = () => {
+    console.log("onBack", this.state);
+    this.setState({
+      showAddOrder: true,
+      showBill: false,
+      showPriceTag: false,
+    });
+  };
+  onSelectPaymentType = (e) => {
+    console.log("onSelectPaymentType", this.state);
+    $(".paymentmethods .paymentmethod").each(function () {
+      $(this).css("background-color", "");
+    });
+    $(".paymentmethods .button").each(function () {
+      $(this).css("background-color", "");
+    });
+    $(".paymentmethods .paymentmethod .payment-name").css(
+      "background-color",
+      ""
+    );
+    if ((e.target.className = "payment-name")) {
+      $(e.target).parent().css("background-color", "#a09191");
+    }
+    $(e.target).css("background-color", "#a09191");
+    this.setState({
+      showChange: true,
+      showPriceTag: false,
+      paymentLines: true,
+      paymentLineSelected: $(e.target).text(),
+    });
+  };
+  onSubractFromTotal = (e) => {
+    let total = this.state.total;
+    let subtractValue = $(e.target).text();
+    console.log("subtractValue", subtractValue);
+    let oldSubtractValue = this.state.subtractValue;
+    let newSubtractValue = subtractValue.concat(oldSubtractValue);
+    let result = total - newSubtractValue;
+    let change = result < 0 ? result : 0;
+    let remaining = result > 0 ? result : 0;
+    console.log("result", result);
+    //payment-status-remaining
+    //payment-status-change
+    change != 0
+      ? $(".payment-status-change .amount").addClass("highlight")
+      : $(".payment-status-change .amount").removeClass("highlight");
+    remaining != 0
+      ? $(".payment-status-remaining .amount").addClass("highlight")
+      : $(".payment-status-remaining .amount").removeClass("highlight");
+    this.setState({
+      subtractValue: newSubtractValue,
+      paymentLines: true,
+      paymentLineSelected: "Cash",
+      showChange: true,
+      showPriceTag: false,
+      change: Math.abs(change),
+      remaining: Math.abs(remaining),
+    });
+  };
+  uncheckPaymentMethod = () => {
+    this.setState({
+      showPriceTag: true,
+      showChange: false,
+      paymentLines: false,
+    });
+    $(".paymentmethods .button").each(function () {
+      $(this).css("background-color", "");
+    });
+    $(".paymentmethods .paymentmethod .payment-name").css(
+      "background-color",
+      ""
+    );
+  };
+  onBackspace = () => {
+    //Remove css from payment methods
+    $(".paymentmethods .paymentmethod").each(function () {
+      $(this).css("background-color", "");
+    });
+    $(".paymentmethods .paymentmethod .payment-name").css(
+      "background-color",
+      ""
+    );
+    console.log("onBackspace", this.state);
+    this.setState({
+      showPriceTag: true,
+      showChange: false,
+      paymentLines: false,
+      subtractValue: "",
+    });
+  };
+  onToPaymentPage = () => {
+    console.log("onToPaymentPage");
+    let totalValue = $("#total").text();
+    this.setState({
+      showAddOrder: false,
+      showBill: true,
+      showPriceTag: true,
+      showChange: false,
+      total: totalValue,
+    });
+
+    //this.props.createOrder(newOrder, this.props.history);
+    //this.props.history.push("/addbills");
+  };
+  onSaveOrder = () => {
+    const newOrder = { ...this.state };
+    this.setState({
+      printBill: true,
+      showAddOrder: false,
+      showBill: false,
+      showChange: false,
+      showPriceTag: false,
+    });
+  };
   onSubmit(e) {
     e.preventDefault();
-    let totalValue = $("#total").text();
-    const newOrder = {
-      //bill: this.state.bill,
-      client: this.state.client,
-      cmdDate: this.state.cmdDate,
-      cmdNum: this.state.cmdNum,
-      details: this.state.qteDetails,
-      total: totalValue,
-      valide: this.state.valide,
-      table: this.state.table,
-    };
-    console.log("details", newOrder);
-    //this.props.createOrder(newOrder, this.props.history);
-    //this.props.history("/addbills");
   }
   onSelectCustomer = (e) => {
     e.preventDefault();
@@ -182,9 +287,13 @@ class Border extends Component {
     e.preventDefault();
     this.setState({ showTable: true });
   };
+
   onAddNote = (e) => {
     e.preventDefault();
     this.setState({ showNote: true });
+  };
+  onShowPriceTag = () => {
+    this.setState({ showPriceTag: true });
   };
   onSetTable = (table) => {
     this.setState({ table: { id: table.id } });
@@ -205,7 +314,7 @@ class Border extends Component {
     return (
       <div className="content-wrapper">
         <div className="">
-          <form onSubmit={this.onSubmit}>
+          {this.state.showAddOrder && (
             <div className="row">
               <div className="col-4">
                 <div
@@ -275,9 +384,8 @@ class Border extends Component {
                   </div>
                   <div className="first-row">
                     <input
-                      type="submit"
                       className="col-6"
-                      //onClick={this.clearScreen}
+                      onClick={this.onToPaymentPage}
                       id="submit"
                       value="Go To Payment"
                     />
@@ -652,8 +760,296 @@ class Border extends Component {
                 )}
               </div>
             </div>
-          </form>
+          )}
+          {this.state.showBill && (
+            <div className="row">
+              <div className="col-md-8 m-auto">
+                <br />
+                <div className="screen-content">
+                  <div class="top-content">
+                    <div class="button back" onClick={this.onBack}>
+                      <i class="fa fa-angle-double-left fa-fw"></i>
+                      <span class="back_text">Back</span>
+                    </div>
+                    <div class="top-content-center">
+                      <h1>Payment</h1>
+                    </div>
+                    <div class="button next" onClick={this.onSaveOrder}>
+                      <span class="next_text">Validate</span>
+                      <i class="fa fa-angle-double-right fa-fw"></i>
+                    </div>
+                  </div>
+                  <div class="main-content">
+                    <div className="left-content">
+                      <div className="paymentmethods-container">
+                        {this.state.paymentLines && (
+                          <div class="paymentlines">
+                            <div class="paymentline selected">
+                              <div class="payment-name">
+                                {this.state.paymentLineSelected}
+                              </div>
+                              <div class="payment-amount">
+                                {this.state.subtractValue}
+                              </div>
+                              <div
+                                aria-label="Delete"
+                                title="Delete"
+                                class="delete-button"
+                                onClick={this.uncheckPaymentMethod}
+                              >
+                                <i class="fa fa-times-circle"></i>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                        <div className="paymentmethods">
+                          <div
+                            className="button paymentmethod"
+                            onClick={this.onSelectPaymentType}
+                          >
+                            <div className="payment-name">Cash</div>
+                          </div>
+                          <div
+                            className="button paymentmethod"
+                            onClick={this.onSelectPaymentType}
+                          >
+                            <div className="payment-name">Bank</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="right-content">
+                      <section class="paymentlines-container">
+                        {this.state.showChange && (
+                          <div class="payment-status-container">
+                            <div>
+                              <div class="payment-status-remaining">
+                                <span class="label">Remaining</span>
+                                <span class="amount">
+                                  {this.state.remaining} DH
+                                </span>
+                              </div>
+                              <div class="payment-status-due">
+                                <span class="label">Total Due</span>
+                                <span>{this.state.total} DH</span>
+                              </div>
+                            </div>
+                            <div>
+                              <div class="payment-status-change">
+                                <span class="label">Change</span>
+                                <span class="amount">
+                                  {this.state.change} DH
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                        {this.state.showPriceTag && (
+                          <div class="paymentlines-empty">
+                            <div class="total">{this.state.total} DH</div>
+                            <div class="message">
+                              {" "}
+                              Please select a payment method.{" "}
+                            </div>
+                          </div>
+                        )}
+                      </section>
+                      <div className="payment-buttons-container">
+                        <section className="payment-numpad">
+                          <div className="numpad">
+                            <button
+                              className="input-button number-char"
+                              onClick={this.onSubractFromTotal}
+                            >
+                              1
+                            </button>
+                            <button
+                              className="input-button number-char"
+                              onClick={this.onSubractFromTotal}
+                            >
+                              2
+                            </button>
+                            <button
+                              className="input-button number-char"
+                              onClick={this.onSubractFromTotal}
+                            >
+                              3
+                            </button>
+                            <br />
+                            <button
+                              className="input-button number-char"
+                              onClick={this.onSubractFromTotal}
+                            >
+                              4
+                            </button>
+                            <button
+                              className="input-button number-char"
+                              onClick={this.onSubractFromTotal}
+                            >
+                              5
+                            </button>
+                            <button
+                              className="input-button number-char"
+                              onClick={this.onSubractFromTotal}
+                            >
+                              6
+                            </button>
+                            <br />
+                            <button
+                              className="input-button number-char"
+                              onClick={this.onSubractFromTotal}
+                            >
+                              7
+                            </button>
+                            <button
+                              className="input-button number-char"
+                              onClick={this.onSubractFromTotal}
+                            >
+                              8
+                            </button>
+                            <button
+                              className="input-button number-char"
+                              onClick={this.onSubractFromTotal}
+                            >
+                              9
+                            </button>
+                            <br />
+                            <button className="input-button number-char">
+                              +/-
+                            </button>
+                            <button className="input-button number-char">
+                              0
+                            </button>
+                            <button
+                              className="input-button number-char"
+                              onClick={this.onBackspace}
+                            >
+                              <img
+                                src={backspace}
+                                width="24"
+                                height="21"
+                                alt="Backspace"
+                              />
+                            </button>
+                          </div>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
+        {this.state.printBill && (
+          <div className="row">
+            <div className="default-view">
+              <div className="pos-receipt-container">
+                <div class="pos-receipt">
+                  <br />
+                  <div class="pos-receipt-contact">
+                    <div>leukea</div>
+                    <div>luke.belmar5@gmail.com</div>
+                    <div class="cashier">
+                      <div>--------------------------------</div>
+                      <div>Served by luke belmar</div>
+                    </div>
+                  </div>
+                  <br />
+                  <br />
+                  <div class="orderlines">
+                    {Object.keys(this.state.orders).forEach((order) => (
+                      <div>
+                        cccc
+                        <div>{order}</div>
+                        <span></span>
+                        <div class="pos-receipt-left-padding">
+                          {this.state.orders[order]} x Price
+                          <span class="price_display pos-receipt-right-align">
+                            Total price of the product
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+
+                    <div>Whiteboard Pen</div>
+                    <span></span>
+                    <div class="pos-receipt-left-padding">
+                      3 x 1.20
+                      <span class="price_display pos-receipt-right-align">
+                        3.60
+                      </span>
+                    </div>
+                    <div>
+                      Desk Organizer
+                      <span class="price_display pos-receipt-right-align">
+                        5.10
+                      </span>
+                    </div>
+                    <span></span>
+                    <div>Monitor Stand</div>
+                    <span></span>
+                    <div class="pos-receipt-left-padding">
+                      3 x 3.19
+                      <span class="price_display pos-receipt-right-align">
+                        9.57
+                      </span>
+                    </div>
+                    <div>Small Shelf</div>
+                    <span></span>
+                    <div class="pos-receipt-left-padding">
+                      2 x 2.83
+                      <span class="price_display pos-receipt-right-align">
+                        5.66
+                      </span>
+                    </div>
+                  </div>
+                  <div class="pos-receipt-right-align">--------</div>
+                  <br />
+                  <div class="pos-receipt-amount">
+                    {" "}
+                    TOTAL <span class="pos-receipt-right-align">23.93 DH</span>
+                  </div>
+                  <br />
+                  <br />
+                  <div>
+                    Cash<span class="pos-receipt-right-align">122.00</span>
+                  </div>
+                  <br />
+                  <div class="pos-receipt-amount receipt-change">
+                    {" "}
+                    CHANGE <span class="pos-receipt-right-align">98.07 DH</span>
+                  </div>
+                  <br />
+                  <div>
+                    Exonere de TVA VENTES
+                    <span class="pos-receipt-right-align">0.00</span>
+                  </div>
+                  <div>
+                    {" "}
+                    Total Taxes{" "}
+                    <span class="pos-receipt-right-align">0.00 DH</span>
+                  </div>
+                  <div class="before-footer"></div>
+                  <div class="after-footer"></div>
+                  <br />
+                  <div class="pos-receipt-order-data">
+                    <div>Order 00001-001-0001</div>
+                    <div>05/22/2021 13:59:32</div>
+                  </div>
+                </div>
+              </div>
+              <div class="actions">
+                <h1>Click down below to receive your receipt?</h1>
+                <div class="buttons">
+                  <div class="button print">
+                    <i class="fa fa-print"></i> Print Receipt{" "}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
