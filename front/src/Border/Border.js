@@ -11,6 +11,7 @@ import OrderSummary from "../Orders/OrderSummary";
 import { render } from "react-dom";
 import initiateState from "../initiateState";
 import backspace from "./backspace.png";
+import PrintInvoiceBill from "./PrintInvoiceBill";
 
 class Border extends Component {
   componentDidMount() {
@@ -95,15 +96,16 @@ class Border extends Component {
     let productId = e.target.getAttribute("data-productId");
     let productPrice = e.target.getAttribute("data-productPrice");
     let oldProducts = this.state.qteDetails;
-    console.log("oldProducts", oldProducts);
-
-    /*oldProducts.map((product) => {
-      console.log("mapper", product);
-    });*/
-
+    //bill details
+    let billDetails = this.state.billDetails;
     const oldOrders = this.state.orders;
     const oldCount = oldOrders[productName];
     oldOrders[productName] = oldCount + 1;
+    let billDetail = {
+      name: productName,
+      quantity: oldOrders[productName],
+      price: productPrice, //* oldOrders[productName],
+    };
 
     let productArray = {
       name: productName,
@@ -112,9 +114,19 @@ class Border extends Component {
     };
     this.setState({
       qteDetails: [...oldProducts, productArray],
+      billDetails: [...billDetails, billDetail],
     });
-
-    console.log("state", this.state);
+    console.log("billDetails", this.state.billDetails);
+    let arrayBill = this.state.arrayBill;
+    Object.entries(this.state.billDetails).forEach(([key, value]) => {
+      let name = value.name;
+      let quantity = value.quantity;
+      let price = value.price;
+      arrayBill[name] = { ...arrayBill[name], name: [name, quantity, price] };
+      this.setState({ arrayBill });
+      console.log(`key "${key}" points to:`, value);
+      console.log("arrayBill", this.state.arrayBill);
+    });
   };
   onClickButton = (e) => {
     let orderName = $("ul.orderlines")
@@ -127,11 +139,11 @@ class Border extends Component {
     $("ul li.orderline:last-child").css("background-color", "#b8b1b0");
     const oldOrders = this.state.orders;
     oldOrders[orderName] = e.target.value;
-    console.log("oldOrders", oldOrders);
+    //console.log("oldOrders", oldOrders);
     this.setState({ orders: oldOrders });
   };
   onApplyDiscount = (e) => {
-    console.log("discount", e.target.value);
+    //console.log("discount", e.target.value);
     let discountValue = $("#discount").val();
     let orderName = $("ul.orderlines")
       .find("li.orderline[selected=selected]")
@@ -144,7 +156,7 @@ class Border extends Component {
           discountValue +
           "% </b>Discount</p>"
       );
-    console.log("orderline selected", orderName);
+    //console.log("orderline selected", orderName);
     const oldDetails = this.state.details;
     /*console.log("details[orderName]", oldDetails[orderName]);
     console.log("discount ", discountValue / 100);
@@ -191,7 +203,7 @@ class Border extends Component {
     let subtractValue = $(e.target).text();
     console.log("subtractValue", subtractValue);
     let oldSubtractValue = this.state.subtractValue;
-    let newSubtractValue = subtractValue.concat(oldSubtractValue);
+    let newSubtractValue = oldSubtractValue.concat(subtractValue);
     let result = total - newSubtractValue;
     let change = result < 0 ? result : 0;
     let remaining = result > 0 ? result : 0;
@@ -261,6 +273,7 @@ class Border extends Component {
   };
   onSaveOrder = () => {
     const newOrder = { ...this.state };
+    //console.log("billDetails", this.state.billDetails);
     this.setState({
       printBill: true,
       showAddOrder: false,
@@ -269,6 +282,18 @@ class Border extends Component {
       showPriceTag: false,
     });
   };
+
+  printReceipt() {
+    let divContents = document.getElementById("pos-receipt-container")
+      .innerHTML;
+    let a = window.open("", "", "height=700, width=500");
+    a.document.write("<html>");
+
+    a.document.write(divContents);
+    a.document.write("</body></html>");
+    a.document.close();
+    a.print();
+  }
   onSubmit(e) {
     e.preventDefault();
   }
@@ -917,7 +942,10 @@ class Border extends Component {
                             <button className="input-button number-char">
                               +/-
                             </button>
-                            <button className="input-button number-char">
+                            <button
+                              className="input-button number-char"
+                              onClick={this.onSubractFromTotal}
+                            >
                               0
                             </button>
                             <button
@@ -944,81 +972,41 @@ class Border extends Component {
         {this.state.printBill && (
           <div className="row">
             <div className="default-view">
-              <div className="pos-receipt-container">
+              <div className="pos-receipt-container" id="pos-receipt-container">
                 <div class="pos-receipt">
                   <br />
                   <div class="pos-receipt-contact">
-                    <div>leukea</div>
-                    <div>luke.belmar5@gmail.com</div>
-                    <div class="cashier">
-                      <div>--------------------------------</div>
-                      <div>Served by luke belmar</div>
-                    </div>
+                    <div>Email</div>
+                    <div>aziz.chakara@gmail.com</div>
                   </div>
                   <br />
                   <br />
                   <div class="orderlines">
-                    {Object.keys(this.state.orders).forEach((order) => (
-                      <div>
-                        cccc
-                        <div>{order}</div>
-                        <span></span>
-                        <div class="pos-receipt-left-padding">
-                          {this.state.orders[order]} x Price
-                          <span class="price_display pos-receipt-right-align">
-                            Total price of the product
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-
-                    <div>Whiteboard Pen</div>
-                    <span></span>
-                    <div class="pos-receipt-left-padding">
-                      3 x 1.20
-                      <span class="price_display pos-receipt-right-align">
-                        3.60
-                      </span>
-                    </div>
-                    <div>
-                      Desk Organizer
-                      <span class="price_display pos-receipt-right-align">
-                        5.10
-                      </span>
-                    </div>
-                    <span></span>
-                    <div>Monitor Stand</div>
-                    <span></span>
-                    <div class="pos-receipt-left-padding">
-                      3 x 3.19
-                      <span class="price_display pos-receipt-right-align">
-                        9.57
-                      </span>
-                    </div>
-                    <div>Small Shelf</div>
-                    <span></span>
-                    <div class="pos-receipt-left-padding">
-                      2 x 2.83
-                      <span class="price_display pos-receipt-right-align">
-                        5.66
-                      </span>
-                    </div>
+                    <PrintInvoiceBill arrayBill={this.state.arrayBill} />
                   </div>
-                  <div class="pos-receipt-right-align">--------</div>
                   <br />
                   <div class="pos-receipt-amount">
                     {" "}
-                    TOTAL <span class="pos-receipt-right-align">23.93 DH</span>
+                    TOTAL{" "}
+                    <span class="pos-receipt-right-align">
+                      {this.state.total} DH
+                    </span>
                   </div>
                   <br />
                   <br />
                   <div>
-                    Cash<span class="pos-receipt-right-align">122.00</span>
+                    Cash
+                    <span class="pos-receipt-right-align">
+                      {this.state.subtractValue} DH
+                    </span>
                   </div>
                   <br />
                   <div class="pos-receipt-amount receipt-change">
                     {" "}
-                    CHANGE <span class="pos-receipt-right-align">98.07 DH</span>
+                    CHANGE{" "}
+                    <span class="pos-receipt-right-align">
+                      {this.state.change} DH
+                    </span>
                   </div>
                   <br />
                   <div>
@@ -1035,14 +1023,14 @@ class Border extends Component {
                   <br />
                   <div class="pos-receipt-order-data">
                     <div>Order 00001-001-0001</div>
-                    <div>05/22/2021 13:59:32</div>
+                    <div>05/24/2021 13:59:32</div>
                   </div>
                 </div>
               </div>
               <div class="actions">
                 <h1>Click down below to receive your receipt?</h1>
                 <div class="buttons">
-                  <div class="button print">
+                  <div class="button print" onClick={this.printReceipt}>
                     <i class="fa fa-print"></i> Print Receipt{" "}
                   </div>
                 </div>

@@ -32,6 +32,7 @@ import OrderSummary from "./Orders/OrderSummary";
 import InvoiceBill from "./Bills/InvoiceBill";
 import AddTable from "./Tables/AddTable";
 import Border from "./Border/Border";
+import PrintInvoiceBill from "./Border/PrintInvoiceBill";
 
 class App extends Component {
   render() {
@@ -64,6 +65,7 @@ class App extends Component {
             <Route path="/ordersummary" component={OrderSummary} />
             <Route path="/border" component={AddOrders} />
             <Route path="/addorder" component={Border} />
+            <Route path="/printinvoice" component={PrintInvoiceBill} />
             <Footer />
           </div>
         </Router>

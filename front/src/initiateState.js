@@ -26,6 +26,8 @@ const initiateState = {
   givenMoney: 0,
   subtractValue: "",
   printBill: false,
+  billDetails: [],
+  arrayBill: [],
 };
 
 export default initiateState;
