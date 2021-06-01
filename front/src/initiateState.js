@@ -7,6 +7,8 @@ const initiateState = {
   client: {},
   details: [],
   orders: {},
+  orderSplit: {},
+  detailSplit: [],
   table: {},
   selected: false,
   showCustomer: false,
@@ -28,6 +30,11 @@ const initiateState = {
   printBill: false,
   billDetails: [],
   arrayBill: [],
+  showTablesFloor: false,
+  rightFloor: false,
+  floorNumber: 0,
+  split: false,
+  totalSplit: 0,
 };
 
 export default initiateState;

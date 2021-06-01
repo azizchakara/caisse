@@ -17,7 +17,7 @@ class PrintInvoiceBill extends Component {
   render() {
     console.log("props print", this.props.arrayBill);
     let billDetail = Object.values(this.props.arrayBill).map((bill, key) => {
-      console.log("key", key, "bill arrat", bill["name"]);
+      console.log("key", key, "bill array", bill["name"]);
       /*bill.map((index, order) =>
         console.log("index", index, "order", bill["name"])
       );*/
@@ -29,7 +29,7 @@ class PrintInvoiceBill extends Component {
           <div class="pos-receipt-left-padding">
             {bill["name"][1]} x {bill["name"][2]}
             <span class="price_display pos-receipt-right-align">
-              {priceProduct}
+              {priceProduct} Dh
             </span>
           </div>
         </div>

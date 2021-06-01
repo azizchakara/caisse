@@ -24,24 +24,6 @@ class Border extends Component {
   constructor() {
     super();
     this.state = initiateState;
-    /*this.state = {
-      cmdDate: "2021-01-30",
-      cmdNum: "1200",
-      //cmdNum: props.countOrders
-      total: 0,
-      valide: false,
-      client: {},
-      details: [],
-      orders: {},
-      table: {},
-      selected: false,
-      showCustomer: false,
-      showTable: false,
-      showNote: false,
-      discount: null,
-      qteDetails: [],
-      note: "",
-    };*/
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -61,6 +43,7 @@ class Border extends Component {
     let value = e.target.value;
     let oldOrders = this.state.orders;
     let details = this.state.details;
+
     let categoryId = e.target.getAttribute("data-categoryId");
 
     $("ul li").each(function () {
@@ -129,22 +112,72 @@ class Border extends Component {
     });
   };
   onClickButton = (e) => {
+    if (this.state.selected) {
+      $("ul li.orderline").each(function () {
+        $(this).css("background-color", "");
+      });
+      let orderName = $("ul.orderlines")
+        .find("li.orderline[selected=selected]")
+        .find("span.product-name")
+        .attr("order-name");
+
+      $("ul.orderlines")
+        .find("li.orderline[selected=selected]")
+        .css("background-color", "#b8b1b0");
+      const oldOrders = this.state.orders;
+      oldOrders[orderName] = e.target.value;
+      //console.log("oldOrders", oldOrders);
+      this.setState({ orders: oldOrders });
+    }
+  };
+  onClearOrder = (e) => {
     let orderName = $("ul.orderlines")
       .find("li.orderline[selected=selected]")
       .find("span.product-name")
       .attr("order-name");
+    console.log("orderName", orderName);
+    delete this.state.orders[orderName];
+    this.setState({ orders: this.state.orders });
     $("ul li.orderline").each(function () {
       $(this).css("background-color", "");
     });
-    $("ul li.orderline:last-child").css("background-color", "#b8b1b0");
-    const oldOrders = this.state.orders;
-    oldOrders[orderName] = e.target.value;
-    //console.log("oldOrders", oldOrders);
-    this.setState({ orders: oldOrders });
+    console.log("this.orders", this.state.orders);
+  };
+  onSplit = () => {
+    let orderName = $("ul.orderlines")
+      .find("li.orderline[selected=selected]")
+      .find("span.product-name")
+      .text();
+    let order = this.state.orders[orderName];
+    let detail = this.state.details[orderName];
+    let totalSplit = order * detail;
+    this.setState({
+      orderSplit: order,
+      detailSplit: detail,
+      split: true,
+      totalSplit: totalSplit,
+    });
+    console.log("split", this.state, "total split", totalSplit);
   };
   onApplyDiscount = (e) => {
-    //console.log("discount", e.target.value);
+    let totalPrice = parseInt($("#total").text());
+    let discountTotal = 0;
     let discountValue = $("#discount").val();
+    let checked = true;
+    //console.log("state price", totalPrice);
+    $("ul li.orderline").each(function () {
+      if (!$(this).is(":selected")) {
+        checked = false;
+      }
+    });
+    if (!checked) {
+      discountTotal = totalPrice - totalPrice * (discountValue / 100);
+      $("#total").text(discountTotal);
+      console.log("discount", discountTotal);
+      $("div.total").append(
+        "<p id='discount-value'>Total Discount of <b>" + discountValue + "% "
+      );
+    }
     let orderName = $("ul.orderlines")
       .find("li.orderline[selected=selected]")
       .find("span.product-name")
@@ -156,7 +189,6 @@ class Border extends Component {
           discountValue +
           "% </b>Discount</p>"
       );
-    //console.log("orderline selected", orderName);
     const oldDetails = this.state.details;
     /*console.log("details[orderName]", oldDetails[orderName]);
     console.log("discount ", discountValue / 100);
@@ -165,7 +197,7 @@ class Border extends Component {
       oldDetails[orderName] * (discountValue / 100)
     );*/
     oldDetails[orderName] = oldDetails[orderName] * (discountValue / 100);
-    this.setState({ details: oldDetails });
+    this.setState({ details: oldDetails, total: discountTotal });
   };
   onBack = () => {
     console.log("onBack", this.state);
@@ -267,13 +299,19 @@ class Border extends Component {
       showChange: false,
       total: totalValue,
     });
-
-    //this.props.createOrder(newOrder, this.props.history);
-    //this.props.history.push("/addbills");
   };
   onSaveOrder = () => {
-    const newOrder = { ...this.state };
-    //console.log("billDetails", this.state.billDetails);
+    const newOrder = {
+      cmdDate: "2021-01-30",
+      cmdNum: "912",
+      total: this.state.total,
+      valide: true,
+      //"note": "tsts",
+      client: this.state.client,
+      table: this.state.table,
+      details: this.state.qteDetails,
+    };
+    console.log("newOrder", newOrder);
     this.setState({
       printBill: true,
       showAddOrder: false,
@@ -281,6 +319,7 @@ class Border extends Component {
       showChange: false,
       showPriceTag: false,
     });
+    this.props.createOrder(newOrder, this.props.history);
   };
 
   printReceipt() {
@@ -288,7 +327,6 @@ class Border extends Component {
       .innerHTML;
     let a = window.open("", "", "height=700, width=500");
     a.document.write("<html>");
-
     a.document.write(divContents);
     a.document.write("</body></html>");
     a.document.close();
@@ -310,7 +348,8 @@ class Border extends Component {
   };
   onSelectTable = (e) => {
     e.preventDefault();
-    this.setState({ showTable: true });
+    this.setState({ showTablesFloor: true, showAddOrder: false });
+    //this.setState({ showTable: true });
   };
 
   onAddNote = (e) => {
@@ -321,11 +360,30 @@ class Border extends Component {
     this.setState({ showPriceTag: true });
   };
   onSetTable = (table) => {
-    this.setState({ table: { id: table.id } });
-    $(".tables-table tbody").each(function () {
+    console.log($("#" + table.id));
+    $(".card").removeClass("active");
+    $("div#" + table.id).addClass("active");
+    this.setState({
+      table: { id: table.id },
+      showTablesFloor: false,
+      showAddOrder: true,
+    });
+    console.log("set table stte", this.state);
+
+    /*$(".tables-table tbody").each(function () {
       $(this).css("background-color", "");
     });
-    $("tbody#" + `${table.id}`).css("background-color", "#b8b1b0");
+    $("tbody#" + `${table.id}`).css("background-color", "#b8b1b0");*/
+  };
+  onSelectFloor = (e) => {
+    console.log($(e.target).text());
+    $(".button-floor").removeClass("active");
+    $(e.target).addClass("active");
+
+    this.setState({
+      showFloor: !this.state.showFloor,
+      floorNumber: $(e.target).text(),
+    });
   };
   /*onSelectClient = (e) => {
     e.preventDefault();
@@ -336,9 +394,76 @@ class Border extends Component {
     const { products } = this.props.products;
     const { clients } = this.props.clients;
     const { tables } = this.props.tables;
+    const { split } = this.state.split;
     return (
       <div className="content-wrapper">
         <div className="">
+          {this.state.showTablesFloor && (
+            <div className="row">
+              <div className="floor-screen screen">
+                <div className="screen-content-flexbox">
+                  <div className="floor-selector">
+                    <span
+                      className="button button-floor"
+                      onClick={this.onSelectFloor}
+                    >
+                      1
+                    </span>
+                    <span
+                      className="button button-floor"
+                      onClick={this.onSelectFloor}
+                    >
+                      2
+                    </span>
+                  </div>
+                  <div className="floor-map" style={{ background: "#d1d1d1" }}>
+                    <div className="tables">
+                      {tables.map((table) => {
+                        if (table.id % 2 == 0 && this.state.floorNumber == 2) {
+                          return (
+                            <div
+                              className="card"
+                              style={{
+                                width: "5rem",
+                                margin: "10px",
+                                cursor: "pointer",
+                              }}
+                              id={table.id}
+                              onClick={() => this.onSetTable(table)}
+                            >
+                              <div className="card-body">
+                                <p className="card-text">T{table.id}</p>
+                              </div>
+                            </div>
+                          );
+                        } else if (
+                          table.id % 2 != 0 &&
+                          this.state.floorNumber == 1
+                        ) {
+                          return (
+                            <div
+                              className="card"
+                              style={{
+                                width: "5rem",
+                                margin: "10px",
+                                cursor: "pointer",
+                              }}
+                              id={table.id}
+                              onClick={() => this.onSetTable(table)}
+                            >
+                              <div className="card-body">
+                                <p className="card-text">T{table.id}</p>
+                              </div>
+                            </div>
+                          );
+                        }
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           {this.state.showAddOrder && (
             <div className="row">
               <div className="col-4">
@@ -407,6 +532,16 @@ class Border extends Component {
                       onClick={this.onApplyDiscount}
                     />
                   </div>
+                  <div className="first-row">
+                    <input
+                      type="button"
+                      className="col-12"
+                      id="split"
+                      value="Split"
+                      onClick={this.onSplit}
+                    />
+                  </div>
+
                   <div className="first-row">
                     <input
                       className="col-6"
@@ -508,7 +643,7 @@ class Border extends Component {
                       type="button"
                       className="col-3"
                       defaultValue="Clear"
-                      onClick={this.onClickButton}
+                      onClick={this.onClearOrder}
                     />
                   </div>
                   <div className="fifth-row">
@@ -542,6 +677,26 @@ class Border extends Component {
                 </div>
               </div>
               <div className="col-8">
+                {this.state.table.id && (
+                  <div className="pos-rightheader">
+                    <span class="order-button floor-button">
+                      <i
+                        role="img"
+                        aria-label="Back to floor"
+                        title="Back to floor"
+                        class="fa fa-angle-double-left"
+                      ></i>
+                      <span> </span>
+                      <span>{this.state.table.id}</span>
+                      <span> </span>
+                      <span class="table-name">
+                        <span>( </span>
+                        <span>T{this.state.floorNumber}</span>
+                        <span> )</span>
+                      </span>
+                    </span>
+                  </div>
+                )}
                 <div className="row" id="ads">
                   List of Categories
                   <ul class="nav nav-tabs col-12">
@@ -615,7 +770,7 @@ class Border extends Component {
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 class="modal-title" id="exampleModalLabel">
-                            Select Customer Modal
+                            Select Customer
                           </h5>
                           <button
                             type="button"
@@ -687,7 +842,7 @@ class Border extends Component {
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 class="modal-title" id="exampleModalLabel">
-                            Select Table Modal
+                            Select Table
                           </h5>
                           <button
                             type="button"
@@ -856,7 +1011,12 @@ class Border extends Component {
                               </div>
                               <div class="payment-status-due">
                                 <span class="label">Total Due</span>
-                                <span>{this.state.total} DH</span>
+                                <span>
+                                  {this.state.split
+                                    ? this.state.totalSplit
+                                    : this.state.total}{" "}
+                                  DH
+                                </span>
                               </div>
                             </div>
                             <div>
@@ -871,7 +1031,12 @@ class Border extends Component {
                         )}
                         {this.state.showPriceTag && (
                           <div class="paymentlines-empty">
-                            <div class="total">{this.state.total} DH</div>
+                            <div class="total">
+                              {this.state.split
+                                ? this.state.totalSplit
+                                : this.state.total}{" "}
+                              DH
+                            </div>
                             <div class="message">
                               {" "}
                               Please select a payment method.{" "}

@@ -130,7 +130,15 @@ public class OrderController {
 			}
 			return ordersResponse;
 	}
-
+	@GetMapping(path="tables/{id}")
+	public ResponseEntity<List<OrderResponse>>getOrderByIdTable(@PathVariable Long id) {
+		List<OrderDto> orders = orderService.getOrdersByTableId(id);
+		ModelMapper modelMapper = new ModelMapper();
+		Type listType = new TypeToken<List<OrderResponse>>() {}.getType();
+		List<OrderResponse> tableorders = modelMapper.map(orders, listType);
+		return new ResponseEntity<List<OrderResponse>>(tableorders,HttpStatus.OK);
+		
+	}
 	
 	
 

@@ -8,6 +8,7 @@ export const getOrders = () => async (dispatch) => {
     payload: res.data,
   });
 };
+
 export const getOrder = (id, history) => async (dispatch) => {
   const res = await axios.get("http://localhost:8080/orders/${id}");
   dispatch({
@@ -15,7 +16,8 @@ export const getOrder = (id, history) => async (dispatch) => {
     payload: res.data,
   });
 };
+
 export const createOrder = (order, history) => async (dispatch) => {
   const res = await axios.post("http://localhost:8080/orders", order);
-  history.push("/orders");
+  //history.push("/orders");
 };

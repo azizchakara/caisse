@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import $ from "jquery";
-import { findDOMNode, render } from "react-dom";
-import { bindActionCreators } from "redux";
+import initiateState from "../initiateState";
 
 class OrderSummary extends Component {
   constructor(props) {
@@ -34,6 +33,7 @@ class OrderSummary extends Component {
         //console.log('[orderSummary] props.orders',props.orders);
         //console.log("[orderSummary] props.details", props.details);
         total += this.props.orders[order] * this.props.details[order];
+
         return (
           <li className="orderline" onClick={this.onClick} key={order.id}>
             <span className="product-name" order-name={order}>

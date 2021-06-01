@@ -164,6 +164,17 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 
+	@Override
+	public List<OrderDto> getOrdersByTableId(Long id) {
+		List<OrderEntity> orders = orderRepository.findOrderByTableId(id);
+		//List<OrderDto> orderDto = orderMapper.entitiesToModels(orders);
+		ModelMapper modelMapper = new ModelMapper();
+		Type listType = new TypeToken<List<OrderDto>>() {}.getType();
+		List<OrderDto> orderDto = modelMapper.map(orders, listType);
+		return orderDto;
+	}
+
+
 	
 
 }

@@ -59,7 +59,7 @@ class AddBills extends Component {
     this.props.createBill(newBill, this.props.history);
   }*/
   render() {
-    const { errorsbillDate, errorstype } = this.state;
+    const { errorsbillDate, errorstype, split } = this.state;
     const { orders } = this.props.orders;
 
     return (
